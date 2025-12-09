@@ -1,4 +1,4 @@
-import NavItem from "@/components/molecules/NavItem";
+import NavItem from "@/components/molecules/NavItem/NavItem";
 import { Box, HStack, For } from "@chakra-ui/react";
 import {
   RiBookmarkFill,
