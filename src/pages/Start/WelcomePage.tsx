@@ -1,5 +1,46 @@
+import { Box, VStack, Image, Text, Button } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
+
 const WelcomePage = () => {
-  return <div>Welcome Page</div>;
+  const { t } = useTranslation("common");
+
+  return (
+    <Box
+      minH="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <VStack w="100%" maxW="sm" mx="auto" mt={12}>
+        <Image
+          src="src/assets/images/hubhob-logo.svg"
+          alt="HobHub logo"
+          boxSize="115px"
+          objectFit="contain"
+        />
+
+        <Text fontSize="lg" textAlign="center">
+          Welcome to HobHub! Connect, share, and discover new hobbies with
+          people near you.
+        </Text>
+
+        <VStack w="100%">
+          <Button colorScheme="blue" w="100%">
+            {t("login")}
+          </Button>
+          <Button colorScheme="teal" variant="outline" w="100%">
+            {t("register")}
+          </Button>
+          <Button colorScheme="blue" w="100%">
+            {t("google_sign_in")}
+          </Button>
+          <Button colorScheme="teal" variant="outline" w="100%">
+            {t("facebook_sign_in")}
+          </Button>
+        </VStack>
+      </VStack>
+    </Box>
+  );
 };
 
 export default WelcomePage;
