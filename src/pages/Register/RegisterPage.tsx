@@ -1,10 +1,9 @@
-import { Box, VStack, Image, Text, Button } from "@chakra-ui/react";
+import { Box, Button, VStack, Image, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const { t } = useTranslation();
-
   return (
     <Box
       minH="100vh"
@@ -19,9 +18,9 @@ const LoginPage = () => {
           boxSize="115px"
           objectFit="contain"
         />
-        {/* TODO: Add login text */}
+        {/* TODO: Add registration text */}
         <Text fontSize="lg" textAlign="center">
-          Placeholder text. Login text goes here.
+          Placeholder text. Register text goes here.
         </Text>
 
         <Button
@@ -30,7 +29,7 @@ const LoginPage = () => {
           w="100%"
           onClick={() => console.log("add logic")}
         >
-          {t("login")}
+          {t("register")}
         </Button>
 
         <Link to={"/welcome"}>
@@ -41,4 +40,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
