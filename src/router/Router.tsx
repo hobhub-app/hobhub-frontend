@@ -8,46 +8,51 @@ import MyProfilePage from "@/pages/MyProfile/MyProfilePage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
 import SavedPage from "@/pages/Saved/SavedPage";
 import SignUpPage from "@/pages/SignUp/SignUpPage";
+import WelcomePage from "@/pages/Start/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
+import RequireAuth from "./RequireAuth";
 
 const router = createBrowserRouter([
+  {
+    path: "/welcome",
+    element: <WelcomePage />,
+  },
   {
     path: "/",
     element: <Layout />,
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: "/",
-        element: <BrowsePage />,
+        element: <RequireAuth />,
+        children: [
+          {
+            path: "/",
+            element: <BrowsePage />,
+          },
+          {
+            path: "/profile/:userId",
+            element: <UserProfilePage />,
+          },
+          {
+            path: "/my-profile",
+            element: <MyProfilePage />,
+          },
+          {
+            path: "/saved",
+            element: <SavedPage />,
+          },
+          {
+            path: "/messages",
+            element: <MessagesPage />,
+          },
+          {
+            path: "/messages/:chatId",
+            element: <ChatPage />,
+          },
+        ],
       },
-      {
-        path: "/profile/:userId",
-        element: <UserProfilePage />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      {
-        path: "/sign-up",
-        element: <SignUpPage />,
-      },
-      {
-        path: "/my-profile",
-        element: <MyProfilePage />,
-      },
-      {
-        path: "/saved",
-        element: <SavedPage />,
-      },
-      {
-        path: "/messages",
-        element: <MessagesPage />,
-      },
-      {
-        path: "/messages/:chatId",
-        element: <ChatPage />,
-      },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/sign-up", element: <SignUpPage /> },
     ],
   },
 ]);
