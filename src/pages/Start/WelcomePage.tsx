@@ -20,10 +20,9 @@ const WelcomePage = () => {
           boxSize="115px"
           objectFit="contain"
         />
-
+        {/* TODO: Add correct intro text */}
         <Text fontSize="lg" textAlign="center">
-          Welcome to HobHub! Connect, share, and discover new hobbies with
-          people near you.
+          Placeholder text. Welcome text goes here.
         </Text>
 
         <VStack w="100%">
