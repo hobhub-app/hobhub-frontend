@@ -7,7 +7,7 @@ import MessagesPage from "@/pages/Messages/MessagesPage";
 import MyProfilePage from "@/pages/MyProfile/MyProfilePage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
 import SavedPage from "@/pages/Saved/SavedPage";
-import SignUpPage from "@/pages/SignUp/SignUpPage";
+import RegisterPage from "@/pages/Register/RegisterPage";
 import WelcomePage from "@/pages/Start/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
@@ -16,6 +16,14 @@ const router = createBrowserRouter([
   {
     path: "/welcome",
     element: <WelcomePage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
   },
   {
     path: "/",
@@ -51,8 +59,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: "/login", element: <LoginPage /> },
-      { path: "/sign-up", element: <SignUpPage /> },
     ],
   },
 ]);
