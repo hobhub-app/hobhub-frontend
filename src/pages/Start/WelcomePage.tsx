@@ -1,8 +1,10 @@
 import { Box, VStack, Image, Text, Button } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
   const { t } = useTranslation("common");
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -25,10 +27,19 @@ const WelcomePage = () => {
         </Text>
 
         <VStack w="100%">
-          <Button colorScheme="blue" w="100%">
+          <Button
+            colorScheme="blue"
+            w="100%"
+            onClick={() => navigate("/login")}
+          >
             {t("login")}
           </Button>
-          <Button colorScheme="teal" variant="outline" w="100%">
+          <Button
+            colorScheme="teal"
+            variant="outline"
+            w="100%"
+            onClick={() => navigate("/register")}
+          >
             {t("register")}
           </Button>
           <Button colorScheme="blue" w="100%">
