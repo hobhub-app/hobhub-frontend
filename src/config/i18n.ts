@@ -1,8 +1,10 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-import en from "../locales/en/common.json";
-import sv from "../locales/sv/common.json";
+import enCommon from "../locales/en/common.json";
+import svCommon from "../locales/sv/common.json";
+import enAuth from "../locales/en/auth.json";
+import svAuth from "../locales/sv/auth.json";
 import { initReactI18next } from "react-i18next";
 
 i18n
@@ -10,13 +12,13 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      en: { common: en },
-      sv: { common: sv },
+      en: { common: enCommon, auth: enAuth },
+      sv: { common: svCommon, auth: svAuth },
     },
     fallbackLng: "sv",
     supportedLngs: ["en", "sv"],
     defaultNS: "common",
-    ns: ["common"],
+    ns: ["common", "auth"],
     interpolation: { escapeValue: false },
     detection: {
       order: ["localStorage", "navigator"],

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const WelcomePage = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
   return (
