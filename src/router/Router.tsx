@@ -1,6 +1,6 @@
 import Layout from "@/components/templates/Layout";
-import BrowsePage from "@/pages/Browse/BrowsePage";
-import UserProfilePage from "@/pages/Browse/UserProfilePage";
+import HomePage from "@/pages/Home/HomePage";
+import UserProfilePage from "@/pages/Home/UserProfilePage";
 import LoginPage from "@/pages/Login/LoginPage";
 import ChatPage from "@/pages/Messages/ChatPage";
 import MessagesPage from "@/pages/Messages/MessagesPage";
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <BrowsePage />,
+            element: <HomePage />,
           },
           {
             path: "/profile/:userId",
