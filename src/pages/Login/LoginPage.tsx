@@ -1,5 +1,6 @@
 import { PasswordInput } from "@/components/ui/password-input";
 import { LOGIN_MUTATION } from "@/graphql/mutations/auth";
+import type { LoginUserResponse } from "@/graphql/types/auth";
 import { useMutation } from "@apollo/client/react";
 import {
   Box,
@@ -28,7 +29,9 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
+  //TODO: Refactor to hook
+  const [login, { loading, error }] =
+    useMutation<LoginUserResponse>(LOGIN_MUTATION);
 
   const onSubmit = async (input: FormValues) => {
     console.log("onSubmit");
@@ -36,10 +39,11 @@ const LoginPage = () => {
       const { data } = await login({
         variables: { input: { email: input.email, password: input.password } },
       });
-      console.log("Login result", data);
 
-      localStorage.setItem("token", data.loginUser.token);
-      navigate("/");
+      if (data && data?.loginUser) {
+        localStorage.setItem("token", data.loginUser.token);
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +104,7 @@ const LoginPage = () => {
           <Button type="submit" loading={loading}>
             {t("login")}
           </Button>
+          {/* TODO: Style error message properly */}
           {error && <span style={{ color: "red" }}>{error.message}</span>}
         </form>
 
