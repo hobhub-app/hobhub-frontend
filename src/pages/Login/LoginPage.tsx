@@ -85,7 +85,7 @@ const LoginPage = () => {
             <Field.Root required invalid={!!errors.password}>
               <Field.Label>{t("password_label")}</Field.Label>
               <PasswordInput
-                placeholder="••••••••••••"
+                placeholder={t("password_placeholder")}
                 {...register("password", {
                   required: t("password_error_required"),
                   minLength: {
