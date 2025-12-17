@@ -34,7 +34,6 @@ const LoginPage = () => {
     useMutation<LoginUserResponse>(LOGIN_MUTATION);
 
   const onSubmit = async (input: FormValues) => {
-    console.log("onSubmit");
     try {
       const { data } = await login({
         variables: { input: { email: input.email, password: input.password } },
