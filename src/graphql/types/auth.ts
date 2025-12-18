@@ -11,3 +11,6 @@ export interface RegisterUserResponse {
 export interface LoginUserResponse {
   loginUser: AuthPayload;
 }
+export interface GoogleSignInResponse {
+  loginWithGoogle: AuthPayload;
+}
