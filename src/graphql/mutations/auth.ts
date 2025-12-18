@@ -27,3 +27,17 @@ export const LOGIN_MUTATION = gql`
     }
   }
 `;
+
+export const GOOGLE_SIGN_IN_MUTATION = gql`
+  mutation LoginWithGoogle($token: String!) {
+    loginWithGoogle(token: $token) {
+      token
+      user {
+        user_id
+        email
+        firstname
+        lastname
+      }
+    }
+  }
+`;
