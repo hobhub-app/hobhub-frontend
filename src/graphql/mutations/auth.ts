@@ -5,7 +5,7 @@ export const REGISTER_MUTATION = gql`
     registerUser(input: $input) {
       token
       user {
-        user_id
+        id
         email
         firstname
         lastname
@@ -19,7 +19,7 @@ export const LOGIN_MUTATION = gql`
     loginUser(input: $input) {
       token
       user {
-        user_id
+        id
         email
         firstname
         lastname
@@ -33,7 +33,7 @@ export const GOOGLE_SIGN_IN_MUTATION = gql`
     loginWithGoogle(token: $token) {
       token
       user {
-        user_id
+        id
         email
         firstname
         lastname
