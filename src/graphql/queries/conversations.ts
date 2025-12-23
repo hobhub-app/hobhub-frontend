@@ -9,11 +9,13 @@ export const MY_CONVERSATIONS = gql`
       user1 {
         id
         firstname
+        lastname
         profileImageUrl
       }
       user2 {
         id
         firstname
+        lastname
         profileImageUrl
       }
     }
