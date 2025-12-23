@@ -11,6 +11,7 @@ import RegisterPage from "@/pages/Register/RegisterPage";
 import WelcomePage from "@/pages/Start/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
+import RequireProfile from "./RequireProfile";
 
 const router = createBrowserRouter([
   {
@@ -34,28 +35,33 @@ const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
-            path: "/",
-            element: <HomePage />,
-          },
-          {
-            path: "/profile/:userId",
-            element: <UserProfilePage />,
-          },
-          {
-            path: "/my-profile",
-            element: <MyProfilePage />,
-          },
-          {
-            path: "/saved",
-            element: <SavedPage />,
-          },
-          {
-            path: "/messages",
-            element: <MessagesPage />,
-          },
-          {
-            path: "/messages/:chatId",
-            element: <ChatPage />,
+            element: <RequireProfile />,
+            children: [
+              {
+                path: "/",
+                element: <HomePage />,
+              },
+              {
+                path: "/profile/:userId",
+                element: <UserProfilePage />,
+              },
+              {
+                path: "/my-profile",
+                element: <MyProfilePage />,
+              },
+              {
+                path: "/saved",
+                element: <SavedPage />,
+              },
+              {
+                path: "/messages",
+                element: <MessagesPage />,
+              },
+              {
+                path: "/messages/:chatId",
+                element: <ChatPage />,
+              },
+            ],
           },
         ],
       },
