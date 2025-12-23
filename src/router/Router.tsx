@@ -35,6 +35,10 @@ const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
+            path: "/my-profile",
+            element: <MyProfilePage />,
+          },
+          {
             element: <RequireProfile />,
             children: [
               {
@@ -44,10 +48,6 @@ const router = createBrowserRouter([
               {
                 path: "/profile/:userId",
                 element: <UserProfilePage />,
-              },
-              {
-                path: "/my-profile",
-                element: <MyProfilePage />,
               },
               {
                 path: "/saved",
