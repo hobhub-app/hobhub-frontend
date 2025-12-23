@@ -14,6 +14,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
+import hobhubLogo from "@/assets/images/hobhub-logo.svg";
 
 interface FormValues {
   email: string;
@@ -57,7 +58,7 @@ const LoginPage = () => {
     >
       <VStack w="100%" maxW="sm" mx="auto" mt={12}>
         <Image
-          src="src/assets/images/hubhob-logo.svg"
+          src={hobhubLogo}
           alt="HobHub logo"
           boxSize="115px"
           objectFit="contain"

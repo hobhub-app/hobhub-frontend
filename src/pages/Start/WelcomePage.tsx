@@ -5,6 +5,7 @@ import { Box, VStack, Image, Text, Button } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import hobhubLogo from "@/assets/images/hobhub-logo.svg";
 
 const WelcomePage = () => {
   const { t } = useTranslation("auth");
@@ -23,7 +24,7 @@ const WelcomePage = () => {
     >
       <VStack w="100%" maxW="sm" mx="auto" mt={12}>
         <Image
-          src="src/assets/images/hubhob-logo.svg"
+          src={hobhubLogo}
           alt="HobHub logo"
           boxSize="115px"
           objectFit="contain"
