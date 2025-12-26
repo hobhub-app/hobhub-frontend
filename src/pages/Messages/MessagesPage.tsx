@@ -1,6 +1,6 @@
 import { MY_CONVERSATIONS } from "@/graphql/queries/conversations.js";
 import { ME } from "@/graphql/queries/users";
-import type { MyConversationsData } from "@/graphql/types/conversation";
+import type { MyChatsData } from "@/graphql/types/conversation";
 import type { MeIdData } from "@/graphql/types/user";
 import { useQuery } from "@apollo/client/react";
 import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
@@ -12,34 +12,35 @@ import { useNavigate } from "react-router-dom";
 const MessagesPage = () => {
   const navigate = useNavigate();
   const {
-    data: conversationsData,
-    loading: conversationsLoading,
-    error: conversationsError,
-  } = useQuery<MyConversationsData>(MY_CONVERSATIONS);
+    data: chatData,
+    loading: chatLoading,
+    error: chatError,
+  } = useQuery<MyChatsData>(MY_CONVERSATIONS);
   const {
     data: meData,
     loading: meLoading,
     error: meError,
   } = useQuery<MeIdData>(ME);
 
-  if (conversationsLoading || meLoading) {
+  if (chatLoading || meLoading) {
     // TODO: Replace with spinner
     return <Text>Loading...</Text>;
   }
 
-  if (conversationsError || meError || !meData) {
+  if (chatError || meError || !meData) {
     // TODO: Replace with error alert/notification
+    console.error("GraphQL error:", chatError, meError);
     return <Text>Something went wrong</Text>;
   }
 
-  const conversations = conversationsData?.myConversations ?? [];
+  const chats = chatData?.chats ?? [];
 
   return (
     <Box>
-      {conversations.map((conversation) => {
-        const { id, lastMessageAt, lastMessageContent } = conversation;
+      {chats.map((chat) => {
+        const { id, lastMessageAt, lastMessageContent } = chat;
 
-        const otherUser = getOtherUser(conversation, meData.me.id);
+        const otherUser = getOtherUser(chat, meData.me.id);
         const { firstname, lastname, profileImageUrl } = otherUser;
 
         const userName =

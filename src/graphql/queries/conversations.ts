@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const MY_CONVERSATIONS = gql`
-  query MyConversations {
-    myConversations {
+  query MyChats {
+    chats: myConversations {
       id
       lastMessageAt
       lastMessageContent
@@ -18,6 +18,17 @@ export const MY_CONVERSATIONS = gql`
         lastname
         profileImageUrl
       }
+    }
+  }
+`;
+
+export const MY_CONVERSATION_MESSAGES = gql`
+  query ChatMessages($conversationId: Int!) {
+    messages: conversationMessages(conversationId: $conversationId) {
+      id
+      senderId
+      content
+      createdAt
     }
   }
 `;

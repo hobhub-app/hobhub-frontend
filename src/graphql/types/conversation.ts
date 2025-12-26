@@ -30,6 +30,13 @@ export interface ConversationPreview {
   user2: Pick<User, "id" | "firstname" | "lastname" | "profileImageUrl">;
 }
 
-export interface MyConversationsData {
-  myConversations: ConversationPreview[];
+export interface MyChatsData {
+  chats: ConversationPreview[];
 }
+
+export type ChatMessagesData = {
+  messages: Pick<
+    ConversationMessage,
+    "id" | "senderId" | "content" | "createdAt"
+  >[];
+};
