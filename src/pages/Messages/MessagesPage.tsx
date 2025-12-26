@@ -8,9 +8,12 @@ import getOtherUser from "./utils/getOtherUser.js";
 import truncateText from "./utils/truncateText.js";
 import formatMessageDate from "./utils/formatMessageDate.js";
 import { useNavigate } from "react-router-dom";
+import useChatSocket from "@/hooks/useChatSocket.js";
+import { useEffect, useState } from "react";
 
 const MessagesPage = () => {
   const navigate = useNavigate();
+
   const {
     data: conversationsData,
     loading: conversationsLoading,
@@ -22,6 +25,38 @@ const MessagesPage = () => {
     error: meError,
   } = useQuery<MeIdData>(ME);
 
+  const [conversations, setConversations] = useState<
+    MyConversationsData["myConversations"]
+  >([]);
+
+  const { lastMessage } = useChatSocket();
+
+  useEffect(() => {
+    if (conversations.length === 0 && conversationsData?.myConversations) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setConversations(conversationsData.myConversations);
+    }
+  }, [conversationsData, conversations.length]);
+
+  useEffect(() => {
+    if (!lastMessage) return;
+
+    const { conversationId, message } = lastMessage.payload;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setConversations((prev) =>
+      prev.map((conv) =>
+        conv.id === conversationId
+          ? {
+              ...conv,
+              lastMessageContent: message.content,
+              lastMessageAt: message.created_at,
+            }
+          : conv
+      )
+    );
+  }, [lastMessage]);
+
   if (conversationsLoading || meLoading) {
     // TODO: Replace with spinner
     return <Text>Loading...</Text>;
@@ -31,8 +66,6 @@ const MessagesPage = () => {
     // TODO: Replace with error alert/notification
     return <Text>Something went wrong</Text>;
   }
-
-  const conversations = conversationsData?.myConversations ?? [];
 
   return (
     <Box>
