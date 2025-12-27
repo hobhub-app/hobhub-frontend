@@ -29,6 +29,11 @@ export const MY_CONVERSATION_MESSAGES = gql`
       senderId
       content
       createdAt
+      sender {
+        id
+        firstname
+        lastname
+      }
     }
   }
 `;

@@ -35,8 +35,10 @@ export interface MyChatsData {
 }
 
 export type ChatMessagesData = {
-  messages: Pick<
+  messages: (Pick<
     ConversationMessage,
     "id" | "senderId" | "content" | "createdAt"
-  >[];
+  > & {
+    sender: Pick<User, "id" | "firstname" | "lastname">;
+  })[];
 };
