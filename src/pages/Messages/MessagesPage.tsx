@@ -56,7 +56,13 @@ const MessagesPage = () => {
             borderBottom="1px solid"
             cursor="pointer"
             _hover={{ color: "grey" }}
-            onClick={() => navigate(`/messages/${id}`)}
+            onClick={() =>
+              navigate(`/messages/${id}`, {
+                state: {
+                  receiverId: otherUser.id,
+                },
+              })
+            }
           >
             <HStack gap={4}>
               <Avatar.Root size="lg">

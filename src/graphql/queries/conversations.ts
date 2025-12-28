@@ -22,6 +22,16 @@ export const MY_CONVERSATIONS = gql`
   }
 `;
 
+export const CONVERSATION_BY_ID = gql`
+  query Chat($conversationId: Int!) {
+    chat: conversation(conversationId: $conversationId) {
+      id
+      user1Id
+      user2Id
+    }
+  }
+`;
+
 export const MY_CONVERSATION_MESSAGES = gql`
   query ChatMessages($conversationId: Int!) {
     messages: conversationMessages(conversationId: $conversationId) {

@@ -34,6 +34,10 @@ export interface MyChatsData {
   chats: ConversationPreview[];
 }
 
+export interface ChatByIdData {
+  chat: Pick<Conversation, "id" | "user1Id" | "user2Id">;
+}
+
 export type ChatMessagesData = {
   messages: (Pick<
     ConversationMessage,
