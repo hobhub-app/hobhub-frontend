@@ -1,6 +1,6 @@
 import { MY_CONVERSATIONS } from "@/graphql/queries/conversations.js";
 import { ME } from "@/graphql/queries/users";
-import type { MyConversationsData } from "@/graphql/types/conversation";
+import type { MyChatsData } from "@/graphql/types/conversation";
 import type { MeIdData } from "@/graphql/types/user";
 import { useQuery } from "@apollo/client/react";
 import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
@@ -15,28 +15,26 @@ const MessagesPage = () => {
   const navigate = useNavigate();
 
   const {
-    data: conversationsData,
-    loading: conversationsLoading,
-    error: conversationsError,
-  } = useQuery<MyConversationsData>(MY_CONVERSATIONS);
+    data: chatData,
+    loading: chatLoading,
+    error: chatError,
+  } = useQuery<MyChatsData>(MY_CONVERSATIONS);
   const {
     data: meData,
     loading: meLoading,
     error: meError,
   } = useQuery<MeIdData>(ME);
 
-  const [conversations, setConversations] = useState<
-    MyConversationsData["myConversations"]
-  >([]);
+  const [chats, setChats] = useState<MyChatsData["chats"]>([]);
 
   const { lastMessage } = useChatSocket();
 
   useEffect(() => {
-    if (conversations.length === 0 && conversationsData?.myConversations) {
+    if (chatData?.chats) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setConversations(conversationsData.myConversations);
+      setChats(chatData.chats);
     }
-  }, [conversationsData, conversations.length]);
+  }, [chatData, chats.length]);
 
   useEffect(() => {
     if (!lastMessage) return;
@@ -44,7 +42,7 @@ const MessagesPage = () => {
     const { conversationId, message } = lastMessage.payload;
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setConversations((prev) =>
+    setChats((prev) =>
       prev.map((conv) =>
         conv.id === conversationId
           ? {
@@ -57,22 +55,23 @@ const MessagesPage = () => {
     );
   }, [lastMessage]);
 
-  if (conversationsLoading || meLoading) {
+  if (chatLoading || meLoading) {
     // TODO: Replace with spinner
     return <Text>Loading...</Text>;
   }
 
-  if (conversationsError || meError || !meData) {
+  if (chatError || meError || !meData) {
     // TODO: Replace with error alert/notification
+    console.error("GraphQL error:", chatError, meError);
     return <Text>Something went wrong</Text>;
   }
 
   return (
     <Box>
-      {conversations.map((conversation) => {
-        const { id, lastMessageAt, lastMessageContent } = conversation;
+      {chats.map((chat) => {
+        const { id, lastMessageAt, lastMessageContent } = chat;
 
-        const otherUser = getOtherUser(conversation, meData.me.id);
+        const otherUser = getOtherUser(chat, meData.me.id);
         const { firstname, lastname, profileImageUrl } = otherUser;
 
         const userName =
@@ -88,7 +87,13 @@ const MessagesPage = () => {
             borderBottom="1px solid"
             cursor="pointer"
             _hover={{ color: "grey" }}
-            onClick={() => navigate(`/messages/${id}`)}
+            onClick={() =>
+              navigate(`/messages/${id}`, {
+                state: {
+                  receiverId: otherUser.id,
+                },
+              })
+            }
           >
             <HStack gap={4}>
               <Avatar.Root size="lg">
