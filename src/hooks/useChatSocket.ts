@@ -5,28 +5,65 @@ const WS_URL = import.meta.env.VITE_WS_ENDPOINT;
 
 const useChatSocket = () => {
   const socketRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<number | null>(null);
+
   const [lastMessage, setLastMessage] = useState<WsMessage | null>(null);
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token || !WS_URL) return;
 
-    const ws = new WebSocket(`${WS_URL}?token=${encodeURIComponent(token)}`);
+    let cancelled = false;
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+    const connect = () => {
+      if (cancelled) return;
 
-      if (data.type === "NEW_MESSAGE") {
-        setLastMessage(data);
-      }
+      const ws = new WebSocket(`${WS_URL}?token=${encodeURIComponent(token)}`);
+
+      socketRef.current = ws;
+
+      ws.onopen = () => {
+        setConnected(true);
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === "NEW_MESSAGE") {
+            setLastMessage(data);
+          }
+        } catch {
+          // ignore malformed messages
+        }
+      };
+
+      ws.onclose = () => {
+        setConnected(false);
+
+        reconnectTimeoutRef.current = window.setTimeout(connect, 1000);
+      };
+
+      ws.onerror = () => {
+        ws.close();
+      };
     };
 
-    socketRef.current = ws;
+    connect();
 
-    return () => ws.close();
+    return () => {
+      cancelled = true;
+      setConnected(false);
+
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+
+      socketRef.current?.close();
+    };
   }, []);
 
-  return { lastMessage };
+  return { lastMessage, connected };
 };
 
 export default useChatSocket;
