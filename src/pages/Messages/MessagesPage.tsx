@@ -18,6 +18,7 @@ const MessagesPage = () => {
     data: chatData,
     loading: chatLoading,
     error: chatError,
+    refetch,
   } = useQuery<MyChatsData>(MY_CONVERSATIONS);
   const {
     data: meData,
@@ -27,7 +28,7 @@ const MessagesPage = () => {
 
   const [chats, setChats] = useState<MyChatsData["chats"]>([]);
 
-  const { lastMessage } = useChatSocket();
+  const { lastMessage, connected } = useChatSocket();
 
   useEffect(() => {
     if (chatData?.chats) {
@@ -54,6 +55,17 @@ const MessagesPage = () => {
       )
     );
   }, [lastMessage]);
+
+  useEffect(() => {
+    if (!connected) return;
+    refetch();
+  }, [connected, refetch]);
+
+  useEffect(() => {
+    const onFocus = () => refetch();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [refetch]);
 
   if (chatLoading || meLoading) {
     // TODO: Replace with spinner

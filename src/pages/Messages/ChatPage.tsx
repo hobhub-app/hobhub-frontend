@@ -31,13 +31,13 @@ const ChatPage = () => {
   const receiverIdFromState = (location.state as { receiverId?: number } | null)
     ?.receiverId;
 
-  const { lastMessage } = useChatSocket();
+  const { lastMessage, connected } = useChatSocket();
 
   const [messages, setMessages] = useState<ChatMessagesData["messages"]>([]);
   const [activeMessageId, setActiveMessageId] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState("");
 
-  const { data, loading, error } = useQuery<ChatMessagesData>(
+  const { data, loading, error, refetch } = useQuery<ChatMessagesData>(
     MY_CONVERSATION_MESSAGES,
     {
       variables: {
@@ -88,6 +88,17 @@ const ChatPage = () => {
       return [...prev, message];
     });
   }, [lastMessage, chatId]);
+
+  useEffect(() => {
+    if (!connected) return;
+    refetch();
+  }, [connected, refetch]);
+
+  useEffect(() => {
+    const onFocus = () => refetch();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [refetch]);
 
   const [sendMessage, { loading: sending }] =
     useMutation<SendMessageResult>(SEND_MESSAGE);
