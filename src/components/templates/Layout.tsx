@@ -3,9 +3,11 @@ import Navbar from "../organisms/Navbar/Navbar";
 import { Box } from "@chakra-ui/react";
 
 const Layout = () => {
+  const NAVBAR_HEIGHT = "80px";
+
   return (
     <>
-      <Box as="main">
+      <Box as="main" pb={NAVBAR_HEIGHT} minH="100vh">
         <Outlet />
       </Box>
       <Navbar />

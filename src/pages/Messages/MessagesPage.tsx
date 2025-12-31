@@ -8,9 +8,12 @@ import getOtherUser from "./utils/getOtherUser.js";
 import truncateText from "./utils/truncateText.js";
 import formatMessageDate from "./utils/formatMessageDate.js";
 import { useNavigate } from "react-router-dom";
+import useChatSocket from "@/hooks/useChatSocket.js";
+import { useEffect, useState } from "react";
 
 const MessagesPage = () => {
   const navigate = useNavigate();
+
   const {
     data: chatData,
     loading: chatLoading,
@@ -22,6 +25,36 @@ const MessagesPage = () => {
     error: meError,
   } = useQuery<MeIdData>(ME);
 
+  const [chats, setChats] = useState<MyChatsData["chats"]>([]);
+
+  const { lastMessage } = useChatSocket();
+
+  useEffect(() => {
+    if (chatData?.chats) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setChats(chatData.chats);
+    }
+  }, [chatData, chats.length]);
+
+  useEffect(() => {
+    if (!lastMessage) return;
+
+    const { conversationId, message } = lastMessage.payload;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setChats((prev) =>
+      prev.map((conv) =>
+        conv.id === conversationId
+          ? {
+              ...conv,
+              lastMessageContent: message.content,
+              lastMessageAt: message.createdAt,
+            }
+          : conv
+      )
+    );
+  }, [lastMessage]);
+
   if (chatLoading || meLoading) {
     // TODO: Replace with spinner
     return <Text>Loading...</Text>;
@@ -32,8 +65,6 @@ const MessagesPage = () => {
     console.error("GraphQL error:", chatError, meError);
     return <Text>Something went wrong</Text>;
   }
-
-  const chats = chatData?.chats ?? [];
 
   return (
     <Box>
