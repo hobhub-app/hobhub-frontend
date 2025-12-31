@@ -6,6 +6,7 @@ import { ME } from "@/graphql/queries/users";
 import type {
   ChatByIdData,
   ChatMessagesData,
+  SendMessageResult,
 } from "@/graphql/types/conversation";
 import type { MeIdData } from "@/graphql/types/user";
 import { useMutation, useQuery } from "@apollo/client/react";
@@ -20,8 +21,9 @@ import {
 } from "@chakra-ui/react";
 import { useLocation, useParams } from "react-router-dom";
 import formatMessageDate from "./utils/formatMessageDate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SEND_MESSAGE } from "@/graphql/mutations/conversations";
+import useChatSocket from "@/hooks/useChatSocket";
 
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
@@ -29,10 +31,13 @@ const ChatPage = () => {
   const receiverIdFromState = (location.state as { receiverId?: number } | null)
     ?.receiverId;
 
+  const { lastMessage } = useChatSocket();
+
+  const [messages, setMessages] = useState<ChatMessagesData["messages"]>([]);
   const [activeMessageId, setActiveMessageId] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState("");
 
-  const { data, loading, error, refetch } = useQuery<ChatMessagesData>(
+  const { data, loading, error } = useQuery<ChatMessagesData>(
     MY_CONVERSATION_MESSAGES,
     {
       variables: {
@@ -41,6 +46,15 @@ const ChatPage = () => {
       skip: !chatId,
     }
   );
+
+  useEffect(() => {
+    if (!data?.messages) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMessages((prev) => {
+      if (prev.length > 0) return prev;
+      return data.messages;
+    });
+  }, [data]);
 
   const { data: meData } = useQuery<MeIdData>(ME);
   const meId = meData?.me.id;
@@ -60,9 +74,23 @@ const ChatPage = () => {
         : chatData.chat.user1Id
       : undefined);
 
-  const messages = data?.messages ?? [];
+  useEffect(() => {
+    if (!lastMessage) return;
 
-  const [sendMessage, { loading: sending }] = useMutation(SEND_MESSAGE);
+    const { conversationId, message } = lastMessage.payload;
+    if (conversationId !== Number(chatId)) return;
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMessages((prev) => {
+      const exists = prev.some((m) => m.id === message.id);
+      if (exists) return prev;
+
+      return [...prev, message];
+    });
+  }, [lastMessage, chatId]);
+
+  const [sendMessage, { loading: sending }] =
+    useMutation<SendMessageResult>(SEND_MESSAGE);
 
   if (loading || !meId) {
     //TODO: Replace with Spinner
@@ -79,22 +107,26 @@ const ChatPage = () => {
     return <Box>Unable to load chat. Please open it from Messages.</Box>;
   }
 
-  console.log("messages", messages);
-
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!newMessage.trim()) return;
 
-    await sendMessage({
+    const { data } = await sendMessage({
       variables: {
         receiverId,
         content: newMessage,
       },
     });
 
+    if (data?.sendMessage) {
+      setMessages((prev) => {
+        if (prev.some((m) => m.id === data.sendMessage.id)) return prev;
+        return [...prev, data.sendMessage];
+      });
+    }
+
     setNewMessage("");
-    await refetch();
   };
 
   return (

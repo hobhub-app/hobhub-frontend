@@ -48,7 +48,7 @@ const MessagesPage = () => {
           ? {
               ...conv,
               lastMessageContent: message.content,
-              lastMessageAt: message.created_at,
+              lastMessageAt: message.createdAt,
             }
           : conv
       )

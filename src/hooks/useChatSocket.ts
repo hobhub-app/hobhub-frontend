@@ -1,15 +1,5 @@
+import type { WsMessage } from "@/types/ws";
 import { useEffect, useRef, useState } from "react";
-
-export interface WsMessage {
-  type: "NEW_MESSAGE";
-  payload: {
-    conversationId: number;
-    message: {
-      content: string;
-      created_at: string;
-    };
-  };
-}
 
 const useChatSocket = () => {
   const socketRef = useRef<WebSocket | null>(null);
@@ -25,6 +15,7 @@ const useChatSocket = () => {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
+
       if (data.type === "NEW_MESSAGE") {
         setLastMessage(data);
       }

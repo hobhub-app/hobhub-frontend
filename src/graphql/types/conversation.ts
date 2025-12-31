@@ -2,12 +2,12 @@ import type { User } from "./user";
 
 export interface ConversationMessage {
   id: number;
-  conversationId: number;
   senderId: number;
   content: string;
   createdAt: string;
   readAt?: string | null;
-  sender: User;
+
+  sender: Pick<User, "id" | "firstname" | "lastname">;
 }
 
 export interface Conversation {
@@ -17,8 +17,10 @@ export interface Conversation {
   createdAt: string;
   lastMessageAt: string;
   lastMessageContent: string;
-  user1: User;
-  user2: User;
+
+  user1?: User;
+  user2?: User;
+
   messages: ConversationMessage[];
 }
 
@@ -38,11 +40,10 @@ export interface ChatByIdData {
   chat: Pick<Conversation, "id" | "user1Id" | "user2Id">;
 }
 
-export type ChatMessagesData = {
-  messages: (Pick<
-    ConversationMessage,
-    "id" | "senderId" | "content" | "createdAt"
-  > & {
-    sender: Pick<User, "id" | "firstname" | "lastname">;
-  })[];
-};
+export interface ChatMessagesData {
+  messages: ConversationMessage[];
+}
+
+export interface SendMessageResult {
+  sendMessage: ChatMessagesData["messages"][number];
+}
