@@ -31,6 +31,9 @@ const colors = {
     800: { value: "#2C282C" },
     900: { value: "#251C25" },
   },
+  error: {
+    100: { value: "#DF726C" },
+  },
 };
 
 export default colors;

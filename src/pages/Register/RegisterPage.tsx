@@ -11,9 +11,11 @@ import {
   Field,
   Input,
 } from "@chakra-ui/react";
+import FormLabel from "@/components/atoms/FormLabel";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Link from "@/components/atoms/Link";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
 
 interface FormValues {
@@ -81,7 +83,7 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack>
             <Field.Root invalid={!!errors.firstname}>
-              <Field.Label>{t("firstname_label")}</Field.Label>
+              <FormLabel>{t("firstname_label")}</FormLabel>
               <Input
                 type="text"
                 aria-required="true"
@@ -94,7 +96,7 @@ const RegisterPage = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.lastname}>
-              <Field.Label>{t("lastname_label")}</Field.Label>
+              <FormLabel>{t("lastname_label")}</FormLabel>
               <Input
                 type="text"
                 aria-required="true"
@@ -107,7 +109,7 @@ const RegisterPage = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.email}>
-              <Field.Label>{t("email_label")}</Field.Label>
+              <FormLabel>{t("email_label")}</FormLabel>
               <Input
                 type="email"
                 aria-required="true"
@@ -120,7 +122,7 @@ const RegisterPage = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.password}>
-              <Field.Label>{t("password_label")}</Field.Label>
+              <FormLabel>{t("password_label")}</FormLabel>
               <PasswordInput
                 aria-required="true"
                 placeholder={t("password_placeholder")}

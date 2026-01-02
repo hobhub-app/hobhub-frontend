@@ -5,8 +5,9 @@ import {
   Box,
   VStack,
   Image,
-  Text,
+  // Text,
   Button as ChakraButton,
+  Heading,
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -32,13 +33,13 @@ const WelcomePage = () => {
         <Image
           src={hobhubLogo}
           alt="HobHub logo"
-          boxSize="115px"
+          boxSize="180px"
           objectFit="contain"
         />
         {/* TODO: Add correct intro text */}
-        <Text fontSize="lg" textAlign="center">
-          Placeholder text. Welcome text goes here.
-        </Text>
+        <Heading textAlign="center" size="2xl">
+          The place to connect with new people to perform your hobbies with.
+        </Heading>
 
         <VStack w="100%">
           <ChakraButton colorPalette="green" onClick={() => navigate("/login")}>

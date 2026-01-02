@@ -11,9 +11,11 @@ import {
   Field,
   Input,
 } from "@chakra-ui/react";
+import FormLabel from "@/components/atoms/FormLabel";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Link from "@/components/atoms/Link";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
 
 interface FormValues {
@@ -71,7 +73,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack>
             <Field.Root required invalid={!!errors.email}>
-              <Field.Label>{t("email_label")}</Field.Label>
+              <FormLabel>{t("email_label")}</FormLabel>
               <Input
                 type="email"
                 placeholder={t("email_placeholder")}
@@ -83,7 +85,7 @@ const LoginPage = () => {
             </Field.Root>
 
             <Field.Root required invalid={!!errors.password}>
-              <Field.Label>{t("password_label")}</Field.Label>
+              <FormLabel>{t("password_label")}</FormLabel>
               <PasswordInput
                 placeholder={t("password_placeholder")}
                 {...register("password", {
@@ -97,6 +99,7 @@ const LoginPage = () => {
                     message: t("password_error_complexity"),
                   },
                 })}
+                color="purple.200"
               />
               <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
             </Field.Root>
@@ -104,8 +107,8 @@ const LoginPage = () => {
           <Button type="submit" loading={loading}>
             {t("login")}
           </Button>
-          {/* TODO: Style error message properly */}
-          {error && <span style={{ color: "red" }}>{error.message}</span>}
+          {/* TODO: Style error message properly, add it as an alert / notification? */}
+          {error && <Text color="error.100">{error.message}</Text>}
         </form>
 
         <Link to={"/welcome"}>
