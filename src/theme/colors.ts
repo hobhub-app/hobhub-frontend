@@ -26,8 +26,8 @@ const colors = {
     200: { value: "#CFC1AA" },
     300: { value: "#89765A" },
   },
-
   neutral: {
+    100: { value: "#FFFFFF" },
     800: { value: "#2C282C" },
     900: { value: "#251C25" },
   },

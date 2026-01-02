@@ -1,7 +1,13 @@
 import { GOOGLE_SIGN_IN_MUTATION } from "@/graphql/mutations/auth";
 import type { GoogleSignInResponse } from "@/graphql/types/auth";
 import { useMutation } from "@apollo/client/react";
-import { Box, VStack, Image, Text, Button } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Image,
+  Text,
+  Button as ChakraButton,
+} from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
@@ -35,21 +41,15 @@ const WelcomePage = () => {
         </Text>
 
         <VStack w="100%">
-          <Button
-            colorScheme="blue"
-            w="100%"
-            onClick={() => navigate("/login")}
-          >
+          <ChakraButton colorPalette="green" onClick={() => navigate("/login")}>
             {t("login")}
-          </Button>
-          <Button
-            colorScheme="teal"
-            variant="outline"
-            w="100%"
+          </ChakraButton>
+          <ChakraButton
+            colorPalette="purple"
             onClick={() => navigate("/register")}
           >
             {t("register")}
-          </Button>
+          </ChakraButton>
           <GoogleLogin
             onSuccess={async (credentialResponse) => {
               const token = credentialResponse.credential;
@@ -69,9 +69,7 @@ const WelcomePage = () => {
             auto_select={true}
             onError={() => console.log("login failed")}
           />
-          <Button colorScheme="teal" variant="outline" w="100%">
-            {t("facebook_sign_in")}
-          </Button>
+          <ChakraButton>{t("facebook_sign_in")}</ChakraButton>
         </VStack>
       </VStack>
     </Box>
