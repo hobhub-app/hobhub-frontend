@@ -8,6 +8,7 @@ import router from "./router/Router.tsx";
 import { ApolloProvider } from "@apollo/client/react";
 import apolloClient from "./graphql/client.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import "material-symbols/outlined.css";
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 

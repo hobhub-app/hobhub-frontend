@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import Link from "@/components/atoms/Link";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
+import InlineIcon from "@/components/atoms/InlineIcon";
 
 interface FormValues {
   firstname: string;
@@ -68,11 +69,11 @@ const RegisterPage = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <VStack w="100%" maxW="sm" mx="auto" mt={12}>
+      <VStack w="full" maxW="sm" mx="auto" mt={12}>
         <Image
           src={hobhubLogo}
           alt="HobHub logo"
-          boxSize="115px"
+          boxSize="180px"
           objectFit="contain"
         />
         {/* TODO: Add register text with translation */}
@@ -80,10 +81,20 @@ const RegisterPage = () => {
           Placeholder text. Register text goes here.
         </Text>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack>
+        <Box
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+          display="flex"
+          flexDir="column"
+          gap="6"
+          width="full"
+        >
+          <VStack gap="4">
             <Field.Root invalid={!!errors.firstname}>
-              <FormLabel>{t("firstname_label")}</FormLabel>
+              <FormLabel>
+                {t("firstname_label")}{" "}
+                <InlineIcon name="stylus_note" color="green.200" />
+              </FormLabel>
               <Input
                 type="text"
                 aria-required="true"
@@ -96,7 +107,10 @@ const RegisterPage = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.lastname}>
-              <FormLabel>{t("lastname_label")}</FormLabel>
+              <FormLabel>
+                {t("lastname_label")}{" "}
+                <InlineIcon name="stylus_note" color="green.200" />
+              </FormLabel>
               <Input
                 type="text"
                 aria-required="true"
@@ -109,7 +123,10 @@ const RegisterPage = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.email}>
-              <FormLabel>{t("email_label")}</FormLabel>
+              <FormLabel>
+                {t("email_label")}
+                <InlineIcon name="alternate_email" color="yellow.100" />
+              </FormLabel>
               <Input
                 type="email"
                 aria-required="true"
@@ -122,7 +139,10 @@ const RegisterPage = () => {
             </Field.Root>
 
             <Field.Root invalid={!!errors.password}>
-              <FormLabel>{t("password_label")}</FormLabel>
+              <FormLabel>
+                {t("password_label")}{" "}
+                <InlineIcon name="password" color="purple.200" />
+              </FormLabel>
               <PasswordInput
                 aria-required="true"
                 placeholder={t("password_placeholder")}
@@ -144,9 +164,9 @@ const RegisterPage = () => {
           <Button type="submit" loading={loading}>
             {t("register")}
           </Button>
-          {/* TODO: Style error message properly */}
+          {/* TODO: Style error message properly, add it as an alert/notification? */}
           {error && <span style={{ color: "red" }}>{error.message}</span>}
-        </form>
+        </Box>
 
         <Link to={"/welcome"}>
           {/* TODO: Add as translation */}

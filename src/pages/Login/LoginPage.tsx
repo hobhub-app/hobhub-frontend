@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import Link from "@/components/atoms/Link";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
+import InlineIcon from "@/components/atoms/InlineIcon";
 
 interface FormValues {
   email: string;
@@ -62,7 +63,7 @@ const LoginPage = () => {
         <Image
           src={hobhubLogo}
           alt="HobHub logo"
-          boxSize="115px"
+          boxSize="180px"
           objectFit="contain"
         />
         {/* TODO: Add login text with translation */}
@@ -70,10 +71,20 @@ const LoginPage = () => {
           Placeholder text. Login text goes here.
         </Text>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack>
+        <Box
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+          display="flex"
+          flexDir="column"
+          gap="6"
+          width="full"
+        >
+          <VStack gap="4">
             <Field.Root required invalid={!!errors.email}>
-              <FormLabel>{t("email_label")}</FormLabel>
+              <FormLabel>
+                {t("email_label")}{" "}
+                <InlineIcon name="alternate_email" color="yellow.100" />
+              </FormLabel>
               <Input
                 type="email"
                 placeholder={t("email_placeholder")}
@@ -85,7 +96,10 @@ const LoginPage = () => {
             </Field.Root>
 
             <Field.Root required invalid={!!errors.password}>
-              <FormLabel>{t("password_label")}</FormLabel>
+              <FormLabel>
+                {t("password_label")}{" "}
+                <InlineIcon name="password" color="purple.200" />
+              </FormLabel>
               <PasswordInput
                 placeholder={t("password_placeholder")}
                 {...register("password", {
@@ -109,7 +123,7 @@ const LoginPage = () => {
           </Button>
           {/* TODO: Style error message properly, add it as an alert / notification? */}
           {error && <Text color="error.100">{error.message}</Text>}
-        </form>
+        </Box>
 
         <Link to={"/welcome"}>
           {/* TODO: Add as translation */}
