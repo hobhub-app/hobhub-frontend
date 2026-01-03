@@ -9,7 +9,7 @@ export const buttonRecipe = defineRecipe({
   variants: {
     variant: {
       solid: {
-        w: "full",
+        flex: "1",
         minH: "48px",
         borderRadius: "4px",
         px: "6",

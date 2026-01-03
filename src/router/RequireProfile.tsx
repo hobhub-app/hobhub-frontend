@@ -1,3 +1,4 @@
+import PageSpinner from "@/components/atoms/PageSpinner";
 import { ME_PROFILE } from "@/graphql/queries/users";
 import type { MeProfileData } from "@/graphql/types/user";
 import { useQuery } from "@apollo/client/react";
@@ -8,7 +9,7 @@ const RequireProfile = () => {
   const { data, loading, error } = useQuery<MeProfileData>(ME_PROFILE);
   console.log("user data", data, loading, error);
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <PageSpinner />;
   }
 
   if (error || !data) {

@@ -32,7 +32,10 @@ const colors = {
     900: { value: "#251C25" },
   },
   error: {
-    100: { value: "#DF726C" },
+    100: { value: "#FFDAAF" },
+    200: { value: "#FFC077" },
+    300: { value: "#C14A52" },
+    400: { value: "#620F30" },
   },
 };
 
