@@ -15,7 +15,7 @@ const config = defineConfig({
       bg: "neutral.800",
       minH: "100%",
       fontSize: "md",
-      fontWeight: "300",
+      fontWeight: "400",
       fontFamily: "body",
       color: "neutral.100",
       lineHeight: "1.5",
