@@ -26,3 +26,24 @@ export const ME_PROFILE = gql`
     }
   }
 `;
+
+export const USERS = gql`
+  query Users {
+    users {
+      id
+      firstname
+      lastname
+      age
+      location
+      profileImageUrl
+      profileDescription
+      hobbies {
+        id
+        hobby {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

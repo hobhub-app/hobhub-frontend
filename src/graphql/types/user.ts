@@ -35,3 +35,26 @@ export interface MeProfileData {
     // }[];
   };
 }
+
+export interface UserPreviewHobby {
+  id: number;
+  hobby: {
+    id: number;
+    name: string;
+  };
+}
+
+export interface UserPreview {
+  id: number;
+  firstname: string | null;
+  lastname: string | null;
+  age: number | null;
+  location: string | null;
+  profileImageUrl: string | null;
+  profileDescription: string | null;
+  hobbies: UserPreviewHobby[];
+}
+
+export interface UsersData {
+  users: UserPreview[];
+}
