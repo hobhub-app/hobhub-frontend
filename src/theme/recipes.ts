@@ -17,7 +17,36 @@ export const buttonRecipe = defineRecipe({
         bg: "colorPalette.300",
         color: "neutral.100",
         fontFamily: "heading",
-        fontSize: "lg",
+        fontSize: "md",
+        fontWeight: "800",
+        transition:
+          "background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out, transform 120ms ease-out",
+        _hover: {
+          bg: "neutral.100",
+          color: "colorPalette.300",
+          border: "solid 2px",
+          borderColor: "colorPalette.300",
+        },
+        _active: {
+          bg: "neutral.100",
+          color: "colorPalette.300",
+          border: "2px solid",
+          borderColor: "colorPalette.300",
+        },
+        _disabled: {
+          opacity: "0.5",
+        },
+      },
+      plain: {
+        flex: "1",
+        minH: "48px",
+        borderRadius: "4px",
+        px: "6",
+        border: "transparent",
+        bg: "colorPalette.100",
+        color: "colorPalette.400",
+        fontFamily: "heading",
+        fontSize: "sm",
         fontWeight: "800",
         transition:
           "background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out, transform 120ms ease-out",
@@ -38,6 +67,9 @@ export const buttonRecipe = defineRecipe({
         },
       },
     },
+  },
+  defaultVariants: {
+    variant: "solid",
   },
 });
 

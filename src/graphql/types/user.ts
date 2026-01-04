@@ -49,6 +49,7 @@ export interface UserPreview {
   firstname: string | null;
   lastname: string | null;
   age: number | null;
+  gender: string | null;
   location: string | null;
   profileImageUrl: string | null;
   profileDescription: string | null;
@@ -56,5 +57,5 @@ export interface UserPreview {
 }
 
 export interface UsersData {
-  users: UserPreview[];
+  browseUsers: UserPreview[];
 }

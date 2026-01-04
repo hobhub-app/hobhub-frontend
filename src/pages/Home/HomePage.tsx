@@ -9,25 +9,63 @@ import {
 import { useState, useRef } from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { useQuery } from "@apollo/client/react";
-import { USERS } from "@/graphql/queries/users";
-import type { UsersData } from "@/graphql/types/user";
+import { BROWSE_USERS, ME_PROFILE } from "@/graphql/queries/users";
+import type { MeProfileData, UsersData } from "@/graphql/types/user";
 import { useNavigate } from "react-router-dom";
 import StatusAlert from "@/components/atoms/StatusAlert";
 import PageSpinner from "@/components/atoms/PageSpinner";
 import UserCard from "@/components/molecules/UserCard";
+import SortFilterPanel from "@/components/organisms/SortFilterPanel";
+import { HOBBIES } from "@/graphql/queries/hobbies";
+import type { HobbiesData } from "@/graphql/types/hobby";
+import { useFilteredUsers } from "@/hooks/useFilteredUsers";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState("Initial value");
+
+  const [panelMode, setPanelMode] = useState<"sort" | "filter">("sort");
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  const [sortMode, setSortMode] = useState<"similar" | "nearest">("similar");
+  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const [selectedHobbyId, setSelectedHobbyId] = useState<number | null>(null);
+  const [hobbyQuery, setHobbyQuery] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data, loading, error } = useQuery<UsersData>(USERS);
+  const { data, loading, error } = useQuery<UsersData>(BROWSE_USERS);
+  const { data: hobbiesData } = useQuery<HobbiesData>(HOBBIES);
+  const { data: meData } = useQuery<MeProfileData>(ME_PROFILE);
 
-  const endElement = value ? (
+  const users = data?.browseUsers ?? [];
+  const hobbies = hobbiesData?.hobbies ?? [];
+  const myLocation = meData?.me.location ?? null;
+
+  const togglePanel = (mode: "sort" | "filter") => {
+    setPanelMode(mode);
+    setIsPanelOpen((open) => !open);
+  };
+
+  const filteredHobbies = hobbies.filter((hobby) =>
+    hobby.name.toLowerCase().includes(hobbyQuery.toLowerCase())
+  );
+
+  const filteredUsers = useFilteredUsers({
+    users,
+    selectedHobbyId,
+    selectedGender,
+    sortMode,
+    myLocation,
+    searchQuery,
+  });
+
+  const endElement = searchQuery ? (
     <CloseButton
       size="xs"
       onClick={() => {
-        setValue("");
+        setSearchQuery("");
         inputRef.current?.focus();
       }}
       me="-2"
@@ -47,17 +85,48 @@ const HomePage = () => {
           ref={inputRef}
           //TODO: Add translation
           placeholder="Search"
-          value={value}
+          value={searchQuery}
           onChange={(e) => {
-            setValue(e.currentTarget.value);
+            setSearchQuery(e.currentTarget.value);
           }}
         />
       </InputGroup>
       <HStack w="full">
         {/* TODO: Add translations */}
-        <Button colorPalette="green">Sort</Button>
-        <Button colorPalette="green">Filter</Button>
+        <Button colorPalette="green" onClick={() => togglePanel("sort")}>
+          Sort
+        </Button>
+        <Button colorPalette="green" onClick={() => togglePanel("filter")}>
+          Filter
+        </Button>
       </HStack>
+
+      <SortFilterPanel
+        isOpen={isPanelOpen}
+        mode={panelMode}
+        selectedGender={selectedGender}
+        onSelectGender={(gender) => {
+          setSelectedGender(gender);
+          setIsPanelOpen(false);
+        }}
+        hobbyQuery={hobbyQuery}
+        hobbies={filteredHobbies}
+        onHobbyQueryChange={setHobbyQuery}
+        onSelectHobby={(id) => {
+          setSelectedHobbyId(id);
+          setIsPanelOpen(false);
+        }}
+        onSelectSort={(mode) => {
+          setSortMode(mode);
+          setIsPanelOpen(false);
+        }}
+        onClearFilters={() => {
+          setSelectedGender(null);
+          setSelectedHobbyId(null);
+          setHobbyQuery("");
+          setIsPanelOpen(false);
+        }}
+      />
 
       {error && (
         <StatusAlert
@@ -68,7 +137,7 @@ const HomePage = () => {
         />
       )}
 
-      {!error && data?.users.length === 0 && (
+      {!error && data?.browseUsers.length === 0 && (
         <StatusAlert
           status="info"
           colorPalette="yellow"
@@ -77,7 +146,7 @@ const HomePage = () => {
         />
       )}
 
-      {data?.users.map((user) => (
+      {filteredUsers.map((user) => (
         <UserCard
           key={user.id}
           user={user}
