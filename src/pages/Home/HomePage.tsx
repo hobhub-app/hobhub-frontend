@@ -22,27 +22,35 @@ import { useFilteredUsers } from "@/hooks/useFilteredUsers";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState("Initial value");
+
   const [panelMode, setPanelMode] = useState<"sort" | "filter">("sort");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+
   const [sortMode, setSortMode] = useState<"similar" | "nearest">("similar");
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
-  const [hobbyQuery, setHobbyQuery] = useState("");
   const [selectedHobbyId, setSelectedHobbyId] = useState<number | null>(null);
+  const [hobbyQuery, setHobbyQuery] = useState("");
+
+  const [value, setValue] = useState("Initial value");
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data, loading, error } = useQuery<UsersData>(BROWSE_USERS);
   const { data: hobbiesData } = useQuery<HobbiesData>(HOBBIES);
   const { data: meData } = useQuery<MeProfileData>(ME_PROFILE);
 
+  const users = data?.browseUsers ?? [];
   const hobbies = hobbiesData?.hobbies ?? [];
   const myLocation = meData?.me.location ?? null;
+
+  const togglePanel = (mode: "sort" | "filter") => {
+    setPanelMode(mode);
+    setIsPanelOpen((open) => !open);
+  };
 
   const filteredHobbies = hobbies.filter((hobby) =>
     hobby.name.toLowerCase().includes(hobbyQuery.toLowerCase())
   );
-
-  const users = data?.browseUsers ?? [];
 
   const filteredUsers = useFilteredUsers({
     users,
@@ -84,22 +92,10 @@ const HomePage = () => {
       </InputGroup>
       <HStack w="full">
         {/* TODO: Add translations */}
-        <Button
-          colorPalette="green"
-          onClick={() => {
-            setPanelMode("sort");
-            setIsPanelOpen((open) => !open);
-          }}
-        >
+        <Button colorPalette="green" onClick={() => togglePanel("sort")}>
           Sort
         </Button>
-        <Button
-          colorPalette="green"
-          onClick={() => {
-            setPanelMode("filter");
-            setIsPanelOpen((open) => !open);
-          }}
-        >
+        <Button colorPalette="green" onClick={() => togglePanel("filter")}>
           Filter
         </Button>
       </HStack>
@@ -108,7 +104,10 @@ const HomePage = () => {
         isOpen={isPanelOpen}
         mode={panelMode}
         selectedGender={selectedGender}
-        onSelectGender={setSelectedGender}
+        onSelectGender={(gender) => {
+          setSelectedGender(gender);
+          setIsPanelOpen(false);
+        }}
         hobbyQuery={hobbyQuery}
         hobbies={filteredHobbies}
         onHobbyQueryChange={setHobbyQuery}
