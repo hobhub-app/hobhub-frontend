@@ -15,10 +15,13 @@ import { useNavigate } from "react-router-dom";
 import StatusAlert from "@/components/atoms/StatusAlert";
 import PageSpinner from "@/components/atoms/PageSpinner";
 import UserCard from "@/components/molecules/UserCard";
+import SortFilterPanel from "@/components/organisms/SortFilterPanel";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("Initial value");
+  const [panelMode, setPanelMode] = useState<"sort" | "filter">("sort");
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data, loading, error } = useQuery<UsersData>(BROWSE_USERS);
@@ -55,9 +58,34 @@ const HomePage = () => {
       </InputGroup>
       <HStack w="full">
         {/* TODO: Add translations */}
-        <Button colorPalette="green">Sort</Button>
-        <Button colorPalette="green">Filter</Button>
+        <Button
+          colorPalette="green"
+          onClick={() => {
+            setPanelMode("sort");
+            setIsPanelOpen((open) => !open);
+          }}
+        >
+          Sort
+        </Button>
+        <Button
+          colorPalette="green"
+          onClick={() => {
+            setPanelMode("filter");
+            setIsPanelOpen((open) => !open);
+          }}
+        >
+          Filter
+        </Button>
       </HStack>
+
+      <SortFilterPanel
+        isOpen={isPanelOpen}
+        mode={panelMode}
+        onSelectSort={(mode) => {
+          console.log("Selected sort:", mode);
+          setIsPanelOpen(false);
+        }}
+      />
 
       {error && (
         <StatusAlert
