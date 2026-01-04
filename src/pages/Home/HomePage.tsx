@@ -9,8 +9,8 @@ import {
 import { useState, useRef } from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { useQuery } from "@apollo/client/react";
-import { BROWSE_USERS } from "@/graphql/queries/users";
-import type { UsersData } from "@/graphql/types/user";
+import { BROWSE_USERS, ME_PROFILE } from "@/graphql/queries/users";
+import type { MeProfileData, UsersData } from "@/graphql/types/user";
 import { useNavigate } from "react-router-dom";
 import StatusAlert from "@/components/atoms/StatusAlert";
 import PageSpinner from "@/components/atoms/PageSpinner";
@@ -18,34 +18,39 @@ import UserCard from "@/components/molecules/UserCard";
 import SortFilterPanel from "@/components/organisms/SortFilterPanel";
 import { HOBBIES } from "@/graphql/queries/hobbies";
 import type { HobbiesData } from "@/graphql/types/hobby";
+import { useFilteredUsers } from "@/hooks/useFilteredUsers";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("Initial value");
   const [panelMode, setPanelMode] = useState<"sort" | "filter">("sort");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [sortMode, setSortMode] = useState<"similar" | "nearest">("similar");
+  const [selectedGender, setSelectedGender] = useState<string | null>(null);
   const [hobbyQuery, setHobbyQuery] = useState("");
   const [selectedHobbyId, setSelectedHobbyId] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data, loading, error } = useQuery<UsersData>(BROWSE_USERS);
   const { data: hobbiesData } = useQuery<HobbiesData>(HOBBIES);
-  console.log("hobbiesData:", hobbiesData);
+  const { data: meData } = useQuery<MeProfileData>(ME_PROFILE);
 
   const hobbies = hobbiesData?.hobbies ?? [];
+  const myLocation = meData?.me.location ?? null;
 
   const filteredHobbies = hobbies.filter((hobby) =>
     hobby.name.toLowerCase().includes(hobbyQuery.toLowerCase())
   );
 
-  const visibleUsers =
-    data?.browseUsers.filter((user) => {
-      if (!selectedHobbyId) return true;
+  const users = data?.browseUsers ?? [];
 
-      return user.hobbies.some(
-        (userHobby) => userHobby.hobby.id === selectedHobbyId
-      );
-    }) ?? [];
+  const filteredUsers = useFilteredUsers({
+    users,
+    selectedHobbyId,
+    selectedGender,
+    sortMode,
+    myLocation,
+  });
 
   const endElement = value ? (
     <CloseButton
@@ -102,6 +107,8 @@ const HomePage = () => {
       <SortFilterPanel
         isOpen={isPanelOpen}
         mode={panelMode}
+        selectedGender={selectedGender}
+        onSelectGender={setSelectedGender}
         hobbyQuery={hobbyQuery}
         hobbies={filteredHobbies}
         onHobbyQueryChange={setHobbyQuery}
@@ -110,7 +117,13 @@ const HomePage = () => {
           setIsPanelOpen(false);
         }}
         onSelectSort={(mode) => {
-          console.log("Selected sort:", mode);
+          setSortMode(mode);
+          setIsPanelOpen(false);
+        }}
+        onClearFilters={() => {
+          setSelectedGender(null);
+          setSelectedHobbyId(null);
+          setHobbyQuery("");
           setIsPanelOpen(false);
         }}
       />
@@ -133,7 +146,7 @@ const HomePage = () => {
         />
       )}
 
-      {visibleUsers.map((user) => (
+      {filteredUsers.map((user) => (
         <UserCard
           key={user.id}
           user={user}

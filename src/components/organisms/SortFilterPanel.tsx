@@ -14,21 +14,27 @@ type PanelMode = "sort" | "filter";
 type Props = {
   isOpen: boolean;
   mode: PanelMode;
+  selectedGender: string | null;
+  onSelectGender: (gender: string | null) => void;
   hobbyQuery: string;
   hobbies: { id: number; name: string }[];
   onHobbyQueryChange: (value: string) => void;
   onSelectHobby: (id: number) => void;
   onSelectSort: (mode: SortMode) => void;
+  onClearFilters: () => void;
 };
 
 const SortFilterPanel = ({
   isOpen,
   mode,
+  selectedGender,
+  onSelectGender,
   onSelectSort,
   hobbyQuery,
   hobbies,
   onHobbyQueryChange,
   onSelectHobby,
+  onClearFilters,
 }: Props) => {
   return (
     <Collapsible.Root open={isOpen} width="full">
@@ -80,11 +86,25 @@ const SortFilterPanel = ({
                   Gender
                 </Text>
                 <SimpleGrid columns={2} gap={2}>
-                  <Button variant="plain" colorPalette="yellow">
+                  <Button
+                    variant="plain"
+                    colorPalette="yellow"
+                    onClick={() =>
+                      onSelectGender(
+                        selectedGender === "woman" ? null : "woman"
+                      )
+                    }
+                  >
                     {/* Todo: Add translation */}
                     Women
                   </Button>
-                  <Button variant="plain" colorPalette="yellow">
+                  <Button
+                    variant="plain"
+                    colorPalette="yellow"
+                    onClick={() =>
+                      onSelectGender(selectedGender === "male" ? null : "male")
+                    }
+                  >
                     {/* Todo: Add translation */}
                     Men
                   </Button>
@@ -118,6 +138,13 @@ const SortFilterPanel = ({
                     </SimpleGrid>
                   </VStack>
                 )}
+                <Button
+                  variant="plain"
+                  colorPalette="red"
+                  onClick={onClearFilters}
+                >
+                  Clear filters
+                </Button>
               </VStack>
             </VStack>
           )}

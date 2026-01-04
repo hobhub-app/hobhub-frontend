@@ -34,6 +34,7 @@ export const BROWSE_USERS = gql`
       firstname
       lastname
       age
+      gender
       location
       profileImageUrl
       profileDescription
