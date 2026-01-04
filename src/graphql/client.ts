@@ -4,8 +4,15 @@ import {
   HttpLink,
   ApolloLink,
 } from "@apollo/client";
+import { Capacitor } from "@capacitor/core";
 
-const httpLink = new HttpLink({ uri: import.meta.env.VITE_GRAPHQL_ENDPOINT });
+const GRAPHQL_ENDPOINT = Capacitor.isNativePlatform()
+  ? "https://hobhub-backend-production.up.railway.app/graphql"
+  : import.meta.env.VITE_GRAPHQL_ENDPOINT;
+
+console.log("GRAPHQL ENDPOINT:", GRAPHQL_ENDPOINT);
+
+const httpLink = new HttpLink({ uri: GRAPHQL_ENDPOINT });
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem("token");
