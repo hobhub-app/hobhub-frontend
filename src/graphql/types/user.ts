@@ -56,5 +56,5 @@ export interface UserPreview {
 }
 
 export interface UsersData {
-  users: UserPreview[];
+  browseUsers: UserPreview[];
 }

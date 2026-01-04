@@ -27,9 +27,9 @@ export const ME_PROFILE = gql`
   }
 `;
 
-export const USERS = gql`
-  query Users {
-    users {
+export const BROWSE_USERS = gql`
+  query BrowseUsers {
+    browseUsers {
       id
       firstname
       lastname

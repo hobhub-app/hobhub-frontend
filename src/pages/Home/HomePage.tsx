@@ -9,7 +9,7 @@ import {
 import { useState, useRef } from "react";
 import { RiSearch2Line } from "react-icons/ri";
 import { useQuery } from "@apollo/client/react";
-import { USERS } from "@/graphql/queries/users";
+import { BROWSE_USERS } from "@/graphql/queries/users";
 import type { UsersData } from "@/graphql/types/user";
 import { useNavigate } from "react-router-dom";
 import StatusAlert from "@/components/atoms/StatusAlert";
@@ -21,7 +21,7 @@ const HomePage = () => {
   const [value, setValue] = useState("Initial value");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data, loading, error } = useQuery<UsersData>(USERS);
+  const { data, loading, error } = useQuery<UsersData>(BROWSE_USERS);
 
   const endElement = value ? (
     <CloseButton
@@ -68,7 +68,7 @@ const HomePage = () => {
         />
       )}
 
-      {!error && data?.users.length === 0 && (
+      {!error && data?.browseUsers.length === 0 && (
         <StatusAlert
           status="info"
           colorPalette="yellow"
@@ -77,7 +77,7 @@ const HomePage = () => {
         />
       )}
 
-      {data?.users.map((user) => (
+      {data?.browseUsers.map((user) => (
         <UserCard
           key={user.id}
           user={user}
