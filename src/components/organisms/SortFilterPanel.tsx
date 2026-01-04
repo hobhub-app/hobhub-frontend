@@ -7,7 +7,6 @@ import {
   SimpleGrid,
   Input,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 type SortMode = "similar" | "nearest";
 type PanelMode = "sort" | "filter";
@@ -15,12 +14,22 @@ type PanelMode = "sort" | "filter";
 type Props = {
   isOpen: boolean;
   mode: PanelMode;
+  hobbyQuery: string;
+  hobbies: { id: number; name: string }[];
+  onHobbyQueryChange: (value: string) => void;
+  onSelectHobby: (id: number) => void;
   onSelectSort: (mode: SortMode) => void;
 };
 
-const SortFilterPanel = ({ isOpen, mode, onSelectSort }: Props) => {
-  const [hobbyQuery, setHobbyQuery] = useState("");
-
+const SortFilterPanel = ({
+  isOpen,
+  mode,
+  onSelectSort,
+  hobbyQuery,
+  hobbies,
+  onHobbyQueryChange,
+  onSelectHobby,
+}: Props) => {
   return (
     <Collapsible.Root open={isOpen} width="full">
       <Collapsible.Content>
@@ -67,7 +76,7 @@ const SortFilterPanel = ({ isOpen, mode, onSelectSort }: Props) => {
               </Text>
 
               <VStack align="stretch">
-                <Text fontSize="sm" opacity={0.8}>
+                <Text fontSize="sm" fontFamily="heading" fontWeight="600">
                   Gender
                 </Text>
                 <SimpleGrid columns={2} gap={2}>
@@ -83,7 +92,7 @@ const SortFilterPanel = ({ isOpen, mode, onSelectSort }: Props) => {
               </VStack>
 
               <VStack align="stretch">
-                <Text fontSize="sm" opacity={0.8}>
+                <Text fontSize="sm" fontFamily="heading" fontWeight="600">
                   {/* Todo: Add translation */}
                   Hobby
                 </Text>
@@ -91,11 +100,24 @@ const SortFilterPanel = ({ isOpen, mode, onSelectSort }: Props) => {
                 <Input
                   placeholder="Search hobby"
                   value={hobbyQuery}
-                  onChange={(e) => setHobbyQuery(e.target.value)}
-                  disabled
+                  onChange={(e) => onHobbyQueryChange(e.target.value)}
                 />
 
-                {/* TODO: Add hobby filtering */}
+                {hobbyQuery.length > 0 && (
+                  <VStack align="stretch">
+                    <SimpleGrid columns={2} gap={2}>
+                      {hobbies.map((hobby) => (
+                        <Button
+                          key={hobby.id}
+                          variant="plain"
+                          onClick={() => onSelectHobby(hobby.id)}
+                        >
+                          {hobby.name}
+                        </Button>
+                      ))}
+                    </SimpleGrid>
+                  </VStack>
+                )}
               </VStack>
             </VStack>
           )}

@@ -16,15 +16,36 @@ import StatusAlert from "@/components/atoms/StatusAlert";
 import PageSpinner from "@/components/atoms/PageSpinner";
 import UserCard from "@/components/molecules/UserCard";
 import SortFilterPanel from "@/components/organisms/SortFilterPanel";
+import { HOBBIES } from "@/graphql/queries/hobbies";
+import type { HobbiesData } from "@/graphql/types/hobby";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("Initial value");
   const [panelMode, setPanelMode] = useState<"sort" | "filter">("sort");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [hobbyQuery, setHobbyQuery] = useState("");
+  const [selectedHobbyId, setSelectedHobbyId] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data, loading, error } = useQuery<UsersData>(BROWSE_USERS);
+  const { data: hobbiesData } = useQuery<HobbiesData>(HOBBIES);
+  console.log("hobbiesData:", hobbiesData);
+
+  const hobbies = hobbiesData?.hobbies ?? [];
+
+  const filteredHobbies = hobbies.filter((hobby) =>
+    hobby.name.toLowerCase().includes(hobbyQuery.toLowerCase())
+  );
+
+  const visibleUsers =
+    data?.browseUsers.filter((user) => {
+      if (!selectedHobbyId) return true;
+
+      return user.hobbies.some(
+        (userHobby) => userHobby.hobby.id === selectedHobbyId
+      );
+    }) ?? [];
 
   const endElement = value ? (
     <CloseButton
@@ -81,6 +102,13 @@ const HomePage = () => {
       <SortFilterPanel
         isOpen={isPanelOpen}
         mode={panelMode}
+        hobbyQuery={hobbyQuery}
+        hobbies={filteredHobbies}
+        onHobbyQueryChange={setHobbyQuery}
+        onSelectHobby={(id) => {
+          setSelectedHobbyId(id);
+          setIsPanelOpen(false);
+        }}
         onSelectSort={(mode) => {
           console.log("Selected sort:", mode);
           setIsPanelOpen(false);
@@ -105,7 +133,7 @@ const HomePage = () => {
         />
       )}
 
-      {data?.browseUsers.map((user) => (
+      {visibleUsers.map((user) => (
         <UserCard
           key={user.id}
           user={user}
