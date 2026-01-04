@@ -9,6 +9,7 @@ type Params = {
   selectedGender: string | null;
   sortMode: SortMode;
   myLocation: string | null;
+  searchQuery: string;
 };
 
 export const useFilteredUsers = ({
@@ -17,9 +18,21 @@ export const useFilteredUsers = ({
   selectedGender,
   sortMode,
   myLocation,
+  searchQuery,
 }: Params) => {
   return useMemo(() => {
     let result = [...users];
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+
+      result = result.filter((user) => {
+        const first = user.firstname?.toLowerCase() ?? "";
+        const last = user.lastname?.toLowerCase() ?? "";
+
+        return first.includes(query) || last.includes(query);
+      });
+    }
 
     if (selectedHobbyId) {
       result = result.filter((user) =>
@@ -42,5 +55,12 @@ export const useFilteredUsers = ({
     }
 
     return result;
-  }, [users, selectedHobbyId, selectedGender, sortMode, myLocation]);
+  }, [
+    users,
+    selectedHobbyId,
+    selectedGender,
+    sortMode,
+    myLocation,
+    searchQuery,
+  ]);
 };

@@ -31,7 +31,7 @@ const HomePage = () => {
   const [selectedHobbyId, setSelectedHobbyId] = useState<number | null>(null);
   const [hobbyQuery, setHobbyQuery] = useState("");
 
-  const [value, setValue] = useState("Initial value");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -58,13 +58,14 @@ const HomePage = () => {
     selectedGender,
     sortMode,
     myLocation,
+    searchQuery,
   });
 
-  const endElement = value ? (
+  const endElement = searchQuery ? (
     <CloseButton
       size="xs"
       onClick={() => {
-        setValue("");
+        setSearchQuery("");
         inputRef.current?.focus();
       }}
       me="-2"
@@ -84,9 +85,9 @@ const HomePage = () => {
           ref={inputRef}
           //TODO: Add translation
           placeholder="Search"
-          value={value}
+          value={searchQuery}
           onChange={(e) => {
-            setValue(e.currentTarget.value);
+            setSearchQuery(e.currentTarget.value);
           }}
         />
       </InputGroup>
