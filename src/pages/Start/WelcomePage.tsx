@@ -1,3 +1,4 @@
+import { Capacitor } from "@capacitor/core";
 import { GOOGLE_SIGN_IN_MUTATION } from "@/graphql/mutations/auth";
 import type { GoogleSignInResponse } from "@/graphql/types/auth";
 import { useMutation } from "@apollo/client/react";
@@ -51,25 +52,27 @@ const WelcomePage = () => {
           >
             {t("register")}
           </ChakraButton>
-          <GoogleLogin
-            onSuccess={async (credentialResponse) => {
-              const token = credentialResponse.credential;
+          {!Capacitor.isNativePlatform() && (
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                const token = credentialResponse.credential;
 
-              if (token) {
-                const { data } = await googleSignIn({ variables: { token } });
+                if (token) {
+                  const { data } = await googleSignIn({ variables: { token } });
 
-                if (data && data.loginWithGoogle) {
-                  localStorage.setItem("token", data.loginWithGoogle.token);
-                  navigate("/");
+                  if (data && data.loginWithGoogle) {
+                    localStorage.setItem("token", data.loginWithGoogle.token);
+                    navigate("/");
+                  }
                 }
-              }
-            }}
-            width="800"
-            size="medium"
-            locale=""
-            auto_select={true}
-            onError={() => console.log("login failed")}
-          />
+              }}
+              width="800"
+              size="medium"
+              locale=""
+              auto_select={true}
+              onError={() => console.log("login failed")}
+            />
+          )}
           <ChakraButton>{t("facebook_sign_in")}</ChakraButton>
         </VStack>
       </VStack>
