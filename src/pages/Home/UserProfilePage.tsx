@@ -3,9 +3,16 @@ import StatusAlert from "@/components/atoms/StatusAlert";
 import { USER_BY_ID } from "@/graphql/queries/users";
 import type { UserData } from "@/graphql/types/user";
 import { useQuery } from "@apollo/client/react";
-import { Heading, VStack, Card, HStack } from "@chakra-ui/react";
+import {
+  Heading,
+  VStack,
+  Card,
+  HStack,
+  Box,
+  Button as ChakraButton,
+} from "@chakra-ui/react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import formatMessageDate from "../Messages/utils/formatMessageDate";
 import SkillLevelGuide from "@/components/molecules/SkillLevelGuide";
 import HobbyTag from "@/components/molecules/HobbyTag";
@@ -13,6 +20,7 @@ import ProfileHeader from "@/components/organisms/ProfileHeader/ProfileHeader";
 
 const UserProfilePage = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   const { data, loading, error } = useQuery<UserData>(USER_BY_ID, {
     variables: { id: Number(userId) },
@@ -87,6 +95,24 @@ const UserProfilePage = () => {
           </Card.Body>
         </Card.Root>
       </VStack>
+      <Box
+        position="fixed"
+        bottom={0}
+        left={0}
+        right={0}
+        zIndex={1000}
+        bg="neutral.800"
+        p={4}
+      >
+        {/* TODO: Add translation */}
+        <ChakraButton
+          width="full"
+          colorPalette="purple"
+          onClick={() => navigate(`/messages/new?userId=${userId}`)}
+        >
+          Start Chat
+        </ChakraButton>
+      </Box>
     </VStack>
   );
 };
