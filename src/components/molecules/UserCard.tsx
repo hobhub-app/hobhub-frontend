@@ -50,7 +50,10 @@ const UserCard = ({ user, onClick }: UserCardProps) => {
         <HStack mb="4" gap="4">
           <Avatar.Root size="xl">
             <Avatar.Fallback name={userName} />
-            <Avatar.Image src={profileImageUrl ?? undefined} />
+            <Avatar.Image
+              src={profileImageUrl ?? undefined}
+              alt={`Profile image of ${userName}`}
+            />
           </Avatar.Root>
 
           <VStack gap="1" alignItems="start">
@@ -58,7 +61,7 @@ const UserCard = ({ user, onClick }: UserCardProps) => {
               <Heading color="yellow.100" textStyle="lg">
                 {userName}
               </Heading>
-              <Image src={Fyrudd} width="4" />
+              <Image src={Fyrudd} width="4" alt="Purple symbol" />
               <Heading color="yellow.100" textStyle="lg">
                 {age}
               </Heading>

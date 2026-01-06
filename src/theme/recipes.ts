@@ -85,7 +85,8 @@ export const textRecipe = defineRecipe({
 export const headingRecipe = defineRecipe({
   base: {
     fontFamily: "heading",
-    fontWeight: "700",
+    fontWeight: "800",
+    color: "beige.50",
   },
 });
 

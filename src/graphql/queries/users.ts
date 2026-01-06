@@ -48,3 +48,27 @@ export const BROWSE_USERS = gql`
     }
   }
 `;
+
+export const USER_BY_ID = gql`
+  query UserById($id: Int!) {
+    user(id: $id) {
+      id
+      firstname
+      lastname
+      age
+      gender
+      location
+      createdAt
+      profileImageUrl
+      profileDescription
+      hobbies {
+        id
+        skillLevel
+        hobby {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

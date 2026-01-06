@@ -98,7 +98,10 @@ const MessagesPage = () => {
             <HStack gap={4}>
               <Avatar.Root size="lg">
                 <Avatar.Fallback name={userName} />
-                <Avatar.Image src={profileImageUrl ?? undefined} />
+                <Avatar.Image
+                  src={profileImageUrl ?? undefined}
+                  alt={`Profile image of ${userName} `}
+                />
               </Avatar.Root>
               <VStack align="start" flex="1">
                 <Text fontWeight="medium">{userName}</Text>

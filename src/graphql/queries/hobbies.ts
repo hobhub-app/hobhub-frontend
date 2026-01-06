@@ -5,6 +5,7 @@ export const HOBBIES = gql`
     hobbies {
       id
       name
+      skillLevel
     }
   }
 `;
