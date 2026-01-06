@@ -19,7 +19,7 @@ import {
   Button,
   HStack,
 } from "@chakra-ui/react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import formatMessageDate from "./utils/formatMessageDate";
 import { useEffect, useState } from "react";
 import { SEND_MESSAGE } from "@/graphql/mutations/conversations";
@@ -28,10 +28,16 @@ import useChatSocket from "@/hooks/useChatSocket";
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
   const location = useLocation();
+  const navigate = useNavigate();
   const receiverIdFromState = (location.state as { receiverId?: number } | null)
     ?.receiverId;
+  const receiverIdFromQuery = new URLSearchParams(location.search).get(
+    "userId"
+  );
 
-  const { lastMessage } = useChatSocket();
+  const isNewChat = !chatId && receiverIdFromQuery;
+
+  const { lastMessage } = useChatSocket(chatId ? Number(chatId) : null);
 
   const [messages, setMessages] = useState<ChatMessagesData["messages"]>([]);
   const [activeMessageId, setActiveMessageId] = useState<number | null>(null);
@@ -50,11 +56,8 @@ const ChatPage = () => {
   useEffect(() => {
     if (!data?.messages) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMessages((prev) => {
-      if (prev.length > 0) return prev;
-      return data.messages;
-    });
-  }, [data]);
+    setMessages(data.messages);
+  }, [data?.messages, chatId]);
 
   const { data: meData } = useQuery<MeIdData>(ME);
   const meId = meData?.me.id;
@@ -68,6 +71,7 @@ const ChatPage = () => {
 
   const receiverId =
     receiverIdFromState ??
+    (receiverIdFromQuery ? Number(receiverIdFromQuery) : undefined) ??
     (chatData && meId
       ? chatData.chat.user1Id === meId
         ? chatData.chat.user2Id
@@ -119,11 +123,19 @@ const ChatPage = () => {
       },
     });
 
-    if (data?.sendMessage) {
+    if (!data) return;
+
+    const { conversationId, message } = data.sendMessage;
+
+    if (message) {
       setMessages((prev) => {
-        if (prev.some((m) => m.id === data.sendMessage.id)) return prev;
-        return [...prev, data.sendMessage];
+        if (prev.some((m) => m.id === message.id)) return prev;
+        return [...prev, message];
       });
+    }
+
+    if (isNewChat) {
+      navigate(`/messages/${conversationId}`, { replace: true });
     }
 
     setNewMessage("");

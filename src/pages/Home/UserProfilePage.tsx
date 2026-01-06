@@ -102,7 +102,8 @@ const UserProfilePage = () => {
         right={0}
         zIndex={1000}
         bg="neutral.800"
-        p={4}
+        px={2}
+        pb={8}
       >
         {/* TODO: Add translation */}
         <ChakraButton

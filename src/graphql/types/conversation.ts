@@ -45,5 +45,8 @@ export interface ChatMessagesData {
 }
 
 export interface SendMessageResult {
-  sendMessage: ChatMessagesData["messages"][number];
+  sendMessage: {
+    conversationId: number;
+    message: ConversationMessage;
+  };
 }
