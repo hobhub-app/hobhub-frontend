@@ -1,17 +1,29 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../organisms/Navbar/Navbar";
 import { Box } from "@chakra-ui/react";
+import NAVBAR_HEIGHT from "@/constants/layout";
+import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 
 const Layout = () => {
-  const NAVBAR_HEIGHT = "80px";
+  const keyboardVisible = useKeyboardVisible();
 
   return (
-    <Box>
-      <Box as="main" pb={NAVBAR_HEIGHT} minH="100vh" bgColor="neutral.800">
+    <>
+      <Box as="header" />
+
+      <Box
+        as="main"
+        pb={NAVBAR_HEIGHT}
+        minH="100dvh"
+        bgColor="neutral.800"
+        pt={1}
+        px={2}
+      >
         <Outlet />
       </Box>
-      <Navbar />
-    </Box>
+
+      {!keyboardVisible && <Navbar />}
+    </>
   );
 };
 

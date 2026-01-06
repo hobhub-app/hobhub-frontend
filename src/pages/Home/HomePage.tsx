@@ -79,7 +79,7 @@ const HomePage = () => {
   }
 
   return (
-    <VStack py={6} px={2} w="full" gap={2}>
+    <VStack w="full" gap={2}>
       <InputGroup endElement={endElement}>
         <Input
           ref={inputRef}

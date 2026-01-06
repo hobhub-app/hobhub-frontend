@@ -45,12 +45,12 @@ const Navbar = () => {
       bottom={0}
       left={0}
       right={0}
+      zIndex={1000}
       bg="purple.300"
-      borderTop="1px solid"
-      borderColor="gray.200"
+      borderTop="8px solid"
+      borderColor="neutral.800"
       px={4}
       py={2}
-      zIndex={1000}
     >
       <HStack justify="space-around">
         <For each={navigationData}>
