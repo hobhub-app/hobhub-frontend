@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from "react";
 
 const WS_URL = import.meta.env.VITE_WS_ENDPOINT;
 
-const useChatSocket = () => {
+const useChatSocket = (conversationId?: number | null) => {
   const socketRef = useRef<WebSocket | null>(null);
   const [lastMessage, setLastMessage] = useState<WsMessage | null>(null);
 
   useEffect(() => {
+    if (!conversationId) return;
     const token = localStorage.getItem("token");
     if (!token) return;
 
@@ -24,7 +25,7 @@ const useChatSocket = () => {
     socketRef.current = ws;
 
     return () => ws.close();
-  }, []);
+  }, [conversationId]);
 
   return { lastMessage };
 };

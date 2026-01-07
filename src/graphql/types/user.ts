@@ -38,6 +38,7 @@ export interface MeProfileData {
 
 export interface UserPreviewHobby {
   id: number;
+  skillLevel: string;
   hobby: {
     id: number;
     name: string;
@@ -53,9 +54,13 @@ export interface UserPreview {
   location: string | null;
   profileImageUrl: string | null;
   profileDescription: string | null;
+  createdAt: string;
   hobbies: UserPreviewHobby[];
 }
 
 export interface UsersData {
   browseUsers: UserPreview[];
+}
+export interface UserData {
+  user: UserPreview;
 }

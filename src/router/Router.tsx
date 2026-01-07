@@ -58,6 +58,10 @@ const router = createBrowserRouter([
                 element: <MessagesPage />,
               },
               {
+                path: "/messages/new",
+                element: <ChatPage />,
+              },
+              {
                 path: "/messages/:chatId",
                 element: <ChatPage />,
               },

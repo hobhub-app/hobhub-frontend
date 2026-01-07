@@ -37,6 +37,9 @@ const colors = {
     300: { value: "#C14A52" },
     400: { value: "#620F30" },
   },
+  pink: {
+    100: { value: "#DD7178" },
+  },
 };
 
 export default colors;

@@ -7,17 +7,19 @@ import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import getOtherUser from "./utils/getOtherUser.js";
 import truncateText from "./utils/truncateText.js";
 import formatMessageDate from "./utils/formatMessageDate.js";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useChatSocket from "@/hooks/useChatSocket.js";
 import { useEffect, useState } from "react";
 
 const MessagesPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     data: chatData,
     loading: chatLoading,
     error: chatError,
+    refetch,
   } = useQuery<MyChatsData>(MY_CONVERSATIONS);
   const {
     data: meData,
@@ -30,11 +32,14 @@ const MessagesPage = () => {
   const { lastMessage } = useChatSocket();
 
   useEffect(() => {
-    if (chatData?.chats) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setChats(chatData.chats);
-    }
-  }, [chatData, chats.length]);
+    if (!chatData?.chats) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setChats(chatData.chats);
+  }, [chatData?.chats]);
+
+  useEffect(() => {
+    refetch();
+  }, [location.pathname, refetch]);
 
   useEffect(() => {
     if (!lastMessage) return;
@@ -98,7 +103,10 @@ const MessagesPage = () => {
             <HStack gap={4}>
               <Avatar.Root size="lg">
                 <Avatar.Fallback name={userName} />
-                <Avatar.Image src={profileImageUrl ?? undefined} />
+                <Avatar.Image
+                  src={profileImageUrl ?? undefined}
+                  alt={`Profile image of ${userName} `}
+                />
               </Avatar.Root>
               <VStack align="start" flex="1">
                 <Text fontWeight="medium">{userName}</Text>

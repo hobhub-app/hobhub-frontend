@@ -1,3 +1,3 @@
-const NAVBAR_HEIGHT = "70px";
+export const NAVBAR_HEIGHT = "70px";
 
-export default NAVBAR_HEIGHT;
+export const INFO_HEADER_HEIGHT = "64px";

@@ -37,7 +37,7 @@ export interface MyChatsData {
 }
 
 export interface ChatByIdData {
-  chat: Pick<Conversation, "id" | "user1Id" | "user2Id">;
+  chat: Pick<Conversation, "id" | "user1Id" | "user2Id" | "lastMessageAt">;
 }
 
 export interface ChatMessagesData {
@@ -45,5 +45,8 @@ export interface ChatMessagesData {
 }
 
 export interface SendMessageResult {
-  sendMessage: ChatMessagesData["messages"][number];
+  sendMessage: {
+    conversationId: number;
+    message: ConversationMessage;
+  };
 }
