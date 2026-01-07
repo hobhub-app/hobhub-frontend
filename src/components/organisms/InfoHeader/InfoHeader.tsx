@@ -22,10 +22,12 @@ const InfoHeader = ({ left, title, right }: InfoHeaderProps) => {
       alignItems="center"
       zIndex={1100}
     >
-      <Box display="flex" w="40px" p={1}>
-        {left}
-      </Box>
-      <Box flex="1" textAlign={left ? "center" : "left"}>
+      {left && (
+        <Box display="flex" w="40px" p={1}>
+          {left}
+        </Box>
+      )}
+      <Box flex="1" textAlign={left ? "center" : "left"} pl={!left ? 4 : 0}>
         {title}
       </Box>
       <Box w="40px" display="flex" justifyContent="flex-end">

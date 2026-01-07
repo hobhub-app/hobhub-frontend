@@ -16,13 +16,17 @@ export const ME_PROFILE = gql`
       lastname
       age
       location
-      #   hobbies {
-      #     id
-      #     hobby {
-      #       id
-      #       name
-      #     }
-      #   }
+      profileImageUrl
+      profileDescription
+      createdAt
+      hobbies {
+        id
+        skillLevel
+        hobby {
+          id
+          name
+        }
+      }
     }
   }
 `;

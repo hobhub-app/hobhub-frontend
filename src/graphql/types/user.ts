@@ -25,14 +25,17 @@ export interface MeProfileData {
     lastname: string | null;
     age: number | null;
     location: string | null;
-    // NOTE: hobbies temporarily disabled, will be enforced when onboarding is implemented
-    // hobbies: {
-    //   id: number;
-    //   hobby: {
-    //     id: number;
-    //     name: string;
-    //   };
-    // }[];
+    profileImageUrl: string | null;
+    profileDescription: string | null;
+    createdAt: string;
+    hobbies: {
+      id: number;
+      skillLevel: string;
+      hobby: {
+        id: number;
+        name: string;
+      };
+    }[];
   };
 }
 
