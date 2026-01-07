@@ -17,6 +17,9 @@ import formatMessageDate from "../Messages/utils/formatMessageDate";
 import SkillLevelGuide from "@/components/molecules/SkillLevelGuide";
 import HobbyTag from "@/components/molecules/HobbyTag";
 import ProfileHeader from "@/components/organisms/ProfileHeader/ProfileHeader";
+import BackButton from "@/components/atoms/BackButton";
+import InfoHeader from "@/components/organisms/InfoHeader/InfoHeader";
+import { INFO_HEADER_HEIGHT } from "@/constants/layout";
 
 const UserProfilePage = () => {
   const { userId } = useParams();
@@ -55,7 +58,12 @@ const UserProfilePage = () => {
   const memberSince = formatMessageDate(createdAt);
 
   return (
-    <VStack gap={6}>
+    <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
+      <InfoHeader
+        left={<BackButton />}
+        title={<Heading textStyle="md">{userName}</Heading>}
+        //TODO: Add save user icon?
+      />
       <ProfileHeader
         name={userName}
         age={age}
@@ -64,7 +72,7 @@ const UserProfilePage = () => {
         imageUrl={profileImageUrl}
       />
 
-      <VStack width="full" alignItems="start" gap={2}>
+      <VStack width="full" alignItems="start" gap={2} px={2}>
         {/* TODO: Add translation */}
         <Heading textStyle="md">Hobbies</Heading>
         <HStack width="full">
@@ -80,7 +88,9 @@ const UserProfilePage = () => {
 
       <VStack width="full" alignItems="start" gap={2}>
         {/* TODO: Add translation */}
-        <Heading textStyle="md">About</Heading>
+        <Heading textStyle="md" px={2}>
+          About
+        </Heading>
         <Card.Root
           width="full"
           flex="1"

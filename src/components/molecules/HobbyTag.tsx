@@ -11,7 +11,7 @@ const HobbyTag = ({ name, skillLevel, showRemove = false }: HobbyTagProps) => {
   const skillColor = getSkillLevelColor(skillLevel);
 
   return (
-    <Tag.Root colorPalette="purple" size="lg" variant="subtle">
+    <Tag.Root colorPalette="purple" size="xl" variant="subtle">
       {skillColor && (
         <Tag.StartElement display="flex" alignItems="center">
           <Circle

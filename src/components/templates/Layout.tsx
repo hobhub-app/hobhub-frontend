@@ -1,7 +1,7 @@
 import { Outlet, useMatch } from "react-router-dom";
 import Navbar from "../organisms/Navbar/Navbar";
 import { Box } from "@chakra-ui/react";
-import NAVBAR_HEIGHT from "@/constants/layout";
+import { NAVBAR_HEIGHT } from "@/constants/layout";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 
 const Layout = () => {
