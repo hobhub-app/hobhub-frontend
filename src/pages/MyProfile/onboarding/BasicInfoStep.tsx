@@ -1,20 +1,47 @@
 import FormLabel from "@/components/atoms/FormLabel";
 import InlineIcon from "@/components/atoms/InlineIcon";
-import { VStack, Input, Field, Heading, Text } from "@chakra-ui/react";
+import {
+  VStack,
+  Input,
+  Field,
+  Heading,
+  Text,
+  HStack,
+  Icon,
+  RadioCard,
+} from "@chakra-ui/react";
+import { IoMaleSharp, IoFemaleSharp } from "react-icons/io5";
 
 type BasicInfoStepProps = {
-  age: number | null;
+  dateOfBirth: Date | null;
+  gender?: string;
   location: string;
-  onAgeChange: (value: number | null) => void;
+  onDateOfBirthChange: (value: Date | null) => void;
+  onGenderChange: (value: string) => void;
   onLocationChange: (value: string) => void;
 };
 
 const BasicInfoStep = ({
-  age,
+  dateOfBirth,
+  gender,
   location,
-  onAgeChange,
+  onDateOfBirthChange,
+  onGenderChange,
   onLocationChange,
 }: BasicInfoStepProps) => {
+  const genders = [
+    {
+      icon: <IoFemaleSharp />,
+      value: "woman",
+      title: "Woman",
+    },
+    {
+      icon: <IoMaleSharp />,
+      value: "man",
+      title: "Man",
+    },
+  ];
+
   return (
     <VStack align="stretch" gap={4}>
       <VStack w="full" align="start" gap={1}>
@@ -32,20 +59,52 @@ const BasicInfoStep = ({
         <FormLabel>
           {/* TODO: Add translation */}
           Date of birth
-          <InlineIcon name="calendar_today" color="green.200" />
+          <InlineIcon name="calendar_today" color="yellow.100" />
         </FormLabel>
         <Input
-          type="number"
+          type="date"
           aria-required="true"
           // TODO: Add translation
-          placeholder="Age"
-          value={age ?? ""}
+          placeholder="Date of birth"
+          value={dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : ""}
           onChange={(e) =>
-            onAgeChange(e.target.value ? Number(e.target.value) : null)
+            onDateOfBirthChange(
+              e.target.value ? new Date(e.target.value) : null
+            )
           }
         />
-        {/* <Field.ErrorText></Field.ErrorText> */}
       </Field.Root>
+
+      <RadioCard.Root
+        value={gender ?? ""}
+        onValueChange={(details) => {
+          if (details.value) {
+            onGenderChange(details.value);
+          }
+        }}
+      >
+        <RadioCard.Label textStyle="md" fontFamily="heading" fontWeight="600">
+          Select Gender
+        </RadioCard.Label>
+        <HStack align="stretch">
+          {genders.map((item) => (
+            <RadioCard.Item key={item.value} value={item.value}>
+              <RadioCard.ItemHiddenInput />
+              <RadioCard.ItemControl>
+                <RadioCard.ItemContent>
+                  <HStack>
+                    <Icon size="md" color="purple.200">
+                      {item.icon}
+                    </Icon>
+                    <RadioCard.ItemText>{item.title}</RadioCard.ItemText>
+                  </HStack>
+                </RadioCard.ItemContent>
+                <RadioCard.ItemIndicator />
+              </RadioCard.ItemControl>
+            </RadioCard.Item>
+          ))}
+        </HStack>
+      </RadioCard.Root>
 
       <Field.Root>
         <FormLabel>
@@ -61,7 +120,6 @@ const BasicInfoStep = ({
           value={location}
           onChange={(e) => onLocationChange(e.target.value)}
         />
-        {/* <Field.ErrorText></Field.ErrorText> */}
       </Field.Root>
     </VStack>
   );

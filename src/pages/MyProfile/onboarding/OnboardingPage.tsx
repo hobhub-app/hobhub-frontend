@@ -5,21 +5,29 @@ import { useState } from "react";
 import BasicInfoStep from "./BasicInfoStep";
 import HobbiesStep from "./HobbiesStep";
 import ProfileSetupStep from "./ProfileSetupStep";
+import { COMPLETE_ONBOARDING } from "@/graphql/mutations/users";
+import type { CompleteOnboardingResult } from "@/graphql/types/user";
+import { useMutation } from "@apollo/client/react";
+import StatusAlert from "@/components/atoms/StatusAlert";
+import { ME_PROFILE } from "@/graphql/queries/users";
+import { useNavigate } from "react-router-dom";
 
 const OnboardingPage = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-
-  const [age, setAge] = useState<number | null>(null);
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
+  const [gender, setGender] = useState("");
   const [location, setLocation] = useState("");
   const [selectedHobbies, setSelectedHobbies] = useState<
     { value: string; label: string; skillLevel: string }[]
   >([]);
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [description, setDescription] = useState("");
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [completeOnboarding, { loading, error }] =
+    useMutation<CompleteOnboardingResult>(COMPLETE_ONBOARDING);
 
-  console.log("selected hobbies", selectedHobbies);
-
-  const isStepOneValid = !!age && !!location;
+  const isStepOneValid = !!dateOfBirth && !!location;
   const isStepTwoValid = selectedHobbies.length > 0;
 
   const isNextDisabled =
@@ -43,17 +51,52 @@ const OnboardingPage = () => {
   };
 
   const handleFinish = async () => {
-    // TODO: Save to backend
-    console.log("Finishing onboarding with data:", {
-      age,
-      location,
-      hobbies: selectedHobbies,
-      profileImage,
-      description,
+    if (!dateOfBirth) return;
+
+    const result = await completeOnboarding({
+      variables: {
+        input: {
+          dateOfBirth,
+          location,
+          gender,
+          profileDescription: description,
+          profileImageUrl: null, // or real URL later
+          hobbies: selectedHobbies.map((h) => ({
+            hobbyId: Number(h.value),
+            skillLevel: h.skillLevel,
+          })),
+        },
+      },
+      refetchQueries: [{ query: ME_PROFILE }],
     });
 
-    // Navigate to home page
+    if (result.data) {
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
   };
+
+  if (showSuccessAlert) {
+    return (
+      <StatusAlert
+        status="success"
+        title="Profile saved successfully!"
+        description="Your profile has been completed. Redirecting you to browse users..."
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <StatusAlert
+        status="error"
+        title="Failed to save profile"
+        description="Something went wrong while saving your profile. Please try again."
+      />
+    );
+  }
 
   return (
     <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
@@ -83,9 +126,11 @@ const OnboardingPage = () => {
 
           <Steps.Content index={0}>
             <BasicInfoStep
-              age={age}
+              dateOfBirth={dateOfBirth}
+              gender={gender}
               location={location}
-              onAgeChange={setAge}
+              onDateOfBirthChange={setDateOfBirth}
+              onGenderChange={setGender}
               onLocationChange={setLocation}
             />
           </Steps.Content>
@@ -117,6 +162,7 @@ const OnboardingPage = () => {
                 onClick={handleFinish}
                 colorPalette="green"
                 variant="solid"
+                loading={loading}
               >
                 {/* TODO: Add translation */}
                 Save Profile

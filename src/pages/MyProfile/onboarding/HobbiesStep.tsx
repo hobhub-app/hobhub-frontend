@@ -1,10 +1,13 @@
+import PageSpinner from "@/components/atoms/PageSpinner";
+import StatusAlert from "@/components/atoms/StatusAlert";
 import HobbyTag from "@/components/molecules/HobbyTag";
+import { SKILL_LEVELS } from "@/constants/skillLevels";
+import { HOBBIES } from "@/graphql/queries/hobbies";
+import type { HobbiesData } from "@/graphql/types/hobby";
+import { useQuery } from "@apollo/client/react";
 import {
-  Box,
   Input,
   Listbox,
-  useFilter,
-  useListCollection,
   VStack,
   Text,
   Button,
@@ -12,9 +15,10 @@ import {
   HStack,
   Wrap,
   Heading,
+  createListCollection,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { LuAtom, LuPlus } from "react-icons/lu";
+import { useMemo, useState } from "react";
+import { LuPlus } from "react-icons/lu";
 import { RiCloseLargeFill } from "react-icons/ri";
 
 type SelectedHobby = {
@@ -23,49 +27,46 @@ type SelectedHobby = {
   skillLevel: string;
 };
 
-type ListboxValueChangeDetails = {
-  value: string[];
-};
-
 type HobbiesStepProps = {
   selectedHobbies: SelectedHobby[];
   onChange: React.Dispatch<React.SetStateAction<SelectedHobby[]>>;
 };
 
 const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
-  const { contains } = useFilter({ sensitivity: "base" });
-
-  //   const [selectedHobbies, setSelectedHobbies] = useState<SelectedHobby[]>([]);
   const [pendingHobby, setPendingHobby] = useState<{
     value: string;
     label: string;
   } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const selectedValues = new Set(selectedHobbies.map((hobby) => hobby.value));
+  const [query, setQuery] = useState("");
 
-  const { collection, filter } = useListCollection({
-    // TODO: Replace with actual hobby data from API/backend
-    initialItems: [
-      { label: "React.js", value: "react", icon: <LuAtom size={16} /> },
-      { label: "Vue.js", value: "vue", icon: <LuAtom size={16} /> },
-      { label: "Angular", value: "angular", icon: <LuAtom size={16} /> },
-      { label: "Svelte", value: "svelte", icon: <LuAtom size={16} /> },
-      { label: "Next.js", value: "nextjs", icon: <LuAtom size={16} /> },
-    ],
-    filter: contains,
-  });
+  const selectedValues = new Set(selectedHobbies.map((h) => h.value));
 
-  const handleSelectionChange = (details: ListboxValueChangeDetails) => {
-    const selectedValue = details.value[0];
-    const hobby = collection.items.find((item) => item.value === selectedValue);
+  const { data: hobbyData, loading, error } = useQuery<HobbiesData>(HOBBIES);
 
-    if (hobby) {
-      setPendingHobby({
-        value: hobby.value,
-        label: hobby.label,
-      });
-    }
+  const hobbies = useMemo(() => {
+    return createListCollection({
+      items:
+        hobbyData?.hobbies.map((hobby) => ({
+          label: hobby.name,
+          value: hobby.id.toString(),
+        })) ?? [],
+      itemToString: (item) => item.label,
+    });
+  }, [hobbyData]);
+
+  const handleSelectionChange = (details: { value: string[] }) => {
+    const value = details.value[0];
+    if (!value) return;
+
+    const hobby = hobbies.items.find((item) => item.value === value);
+    if (!hobby) return;
+
+    setPendingHobby({
+      value: hobby.value,
+      label: hobby.label,
+    });
   };
 
   const handleRemoveHobby = (value: string) => {
@@ -73,6 +74,19 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
       prev.filter((hobby) => hobby.value !== value)
     );
   };
+
+  if (loading) {
+    return <PageSpinner />;
+  }
+  if (error) {
+    return (
+      <StatusAlert
+        status="error"
+        title="User not found"
+        description="This profile could not be loaded."
+      />
+    );
+  }
 
   return (
     <VStack align="stretch" gap={4}>
@@ -121,14 +135,14 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
             <Dialog.Body>
               <VStack>
                 <Listbox.Root
-                  collection={collection}
+                  collection={hobbies}
                   color="purple.100"
                   onValueChange={handleSelectionChange}
                 >
                   <Listbox.Input
                     as={Input}
                     placeholder="Search hobbies..."
-                    onChange={(e) => filter(e.target.value)}
+                    onChange={(e) => setQuery(e.target.value)}
                   />
 
                   <Listbox.Content
@@ -136,8 +150,11 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
                     bg="neutral.900"
                     borderColor="purple.200"
                   >
-                    {collection.items
+                    {hobbies.items
                       .filter((item) => !selectedValues.has(item.value))
+                      .filter((item) =>
+                        item.label.toLowerCase().includes(query.toLowerCase())
+                      )
                       .map((item) => (
                         <Listbox.Item
                           key={item.value}
@@ -149,21 +166,12 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
                           }}
                           _selected={{ bg: "purple.300" }}
                         >
-                          <Box
-                            display="flex"
-                            alignItems="center"
-                            gap={3}
-                            color="yellow.100"
-                            flexShrink="0"
+                          <Listbox.ItemText
+                            color="neutral.100"
+                            _groupHover={{ color: "purple.400" }}
                           >
-                            {item.icon}
-                            <Listbox.ItemText
-                              color="neutral.100"
-                              _groupHover={{ color: "purple.400" }}
-                            >
-                              {item.label}
-                            </Listbox.ItemText>
-                          </Box>
+                            {item.label}
+                          </Listbox.ItemText>
                           <Listbox.ItemIndicator />
                         </Listbox.Item>
                       ))}
@@ -177,30 +185,28 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
                     </Text>
 
                     <Wrap width="full">
-                      {["beginner", "intermediate", "advanced", "expert"].map(
-                        (level) => (
-                          <Button
-                            key={level}
-                            size="xs"
-                            textStyle="xs"
-                            variant="plain"
-                            onClick={() => {
-                              onChange((prev: SelectedHobby[]) => [
-                                ...prev,
-                                {
-                                  value: pendingHobby.value,
-                                  label: pendingHobby.label,
-                                  skillLevel: level,
-                                },
-                              ]);
-                              setPendingHobby(null);
-                              setIsOpen(false);
-                            }}
-                          >
-                            {level}
-                          </Button>
-                        )
-                      )}
+                      {SKILL_LEVELS.map(({ level }) => (
+                        <Button
+                          key={level}
+                          size="xs"
+                          textStyle="xs"
+                          variant="plain"
+                          onClick={() => {
+                            onChange((prev: SelectedHobby[]) => [
+                              ...prev,
+                              {
+                                value: pendingHobby.value,
+                                label: pendingHobby.label,
+                                skillLevel: level,
+                              },
+                            ]);
+                            setPendingHobby(null);
+                            setIsOpen(false);
+                          }}
+                        >
+                          {level}
+                        </Button>
+                      ))}
                     </Wrap>
                   </VStack>
                 )}
