@@ -21,7 +21,7 @@ const OnboardingPage = () => {
   const [selectedHobbies, setSelectedHobbies] = useState<
     { value: string; label: string; skillLevel: string }[]
   >([]);
-  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const [description, setDescription] = useState("");
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [completeOnboarding, { loading, error }] =
@@ -60,7 +60,7 @@ const OnboardingPage = () => {
           location,
           gender,
           profileDescription: description,
-          profileImageUrl: null, // or real URL later
+          profileImageUrl,
           hobbies: selectedHobbies.map((h) => ({
             hobbyId: Number(h.value),
             skillLevel: h.skillLevel,
@@ -144,9 +144,9 @@ const OnboardingPage = () => {
 
           <Steps.Content index={2}>
             <ProfileSetupStep
-              profileImage={profileImage}
+              profileImageUrl={profileImageUrl}
               description={description}
-              onProfileImageChange={setProfileImage}
+              onProfileImageChange={setProfileImageUrl}
               onDescriptionChange={setDescription}
             />
           </Steps.Content>

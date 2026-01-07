@@ -1,3 +1,7 @@
+import { GET_UPLOAD_SIGNATURE } from "@/graphql/mutations/uploads";
+import type { GetUploadSignatureResult } from "@/graphql/types/upload";
+import { uploadToCloudinarySigned } from "@/utils/uploadToCloudinarySigned";
+import { useMutation } from "@apollo/client/react";
 import {
   VStack,
   Heading,
@@ -9,42 +13,43 @@ import {
   Input,
   HStack,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { LuCamera } from "react-icons/lu";
 
 type ProfileSetupStepProps = {
-  profileImage: File | null;
+  profileImageUrl: string | null;
   description: string;
-  onProfileImageChange: (file: File | null) => void;
+  onProfileImageChange: (url: string | null) => void;
   onDescriptionChange: (description: string) => void;
 };
 
 const ProfileSetupStep = ({
-  profileImage,
+  profileImageUrl,
   description,
   onProfileImageChange,
   onDescriptionChange,
 }: ProfileSetupStepProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [getSignature] =
+    useMutation<GetUploadSignatureResult>(GET_UPLOAD_SIGNATURE);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      onProfileImageChange(file);
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+    const { data } = await getSignature();
+    console.log("UPLOAD SIGNATURE", data);
+
+    if (!data) {
+      throw new Error("No upload signature returned");
     }
+
+    const url = await uploadToCloudinarySigned(file, data.getUploadSignature);
+    onProfileImageChange(url);
   };
 
   const handleRemoveImage = () => {
     onProfileImageChange(null);
-    setImagePreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -73,10 +78,10 @@ const ProfileSetupStep = ({
           <Box asChild width={40} height={40}>
             <Avatar.Root size="full">
               <Avatar.Fallback>Profile image</Avatar.Fallback>
-              <Avatar.Image src={imagePreview || undefined} />
+              <Avatar.Image src={profileImageUrl || undefined} />
             </Avatar.Root>
 
-            {imagePreview && (
+            {profileImageUrl && (
               <Button
                 position="absolute"
                 top={-2}
@@ -100,7 +105,7 @@ const ProfileSetupStep = ({
               onClick={triggerFileInput}
             >
               <LuCamera />
-              {profileImage ? "Change Photo" : "Add Photo"}
+              {profileImageUrl ? "Change Photo" : "Add Photo"}
             </Button>
           </HStack>
         </VStack>
