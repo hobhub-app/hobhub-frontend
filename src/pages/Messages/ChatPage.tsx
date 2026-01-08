@@ -182,7 +182,7 @@ const ChatPage = () => {
   };
 
   return (
-    <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
+    <VStack w="full" gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
       <InfoHeader
         left={<BackButton />}
         title={<Heading textStyle="md">{otherUserName}</Heading>}
