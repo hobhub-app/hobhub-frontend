@@ -36,7 +36,7 @@ const ProfileHeader = ({
       px={4}
       borderRadius={4}
     >
-      <Box asChild width={40}>
+      <Box asChild width={40} height={40}>
         <Avatar.Root size="full">
           <Avatar.Fallback name={name} />
           <Avatar.Image

@@ -1,17 +1,24 @@
 import { getSkillLevelColor } from "@/utils/getSkillLevelColor";
-import { Tag, Circle } from "@chakra-ui/react";
+import { Tag, Circle, type TagRootProps } from "@chakra-ui/react";
 
 type HobbyTagProps = {
   name: string;
   skillLevel?: string;
   showRemove?: boolean;
-};
+  onRemove?: () => void;
+} & TagRootProps;
 
-const HobbyTag = ({ name, skillLevel, showRemove = false }: HobbyTagProps) => {
+const HobbyTag = ({
+  name,
+  skillLevel,
+  showRemove = false,
+  onRemove,
+  ...tagProps
+}: HobbyTagProps) => {
   const skillColor = getSkillLevelColor(skillLevel);
 
   return (
-    <Tag.Root colorPalette="purple" size="xl" variant="subtle">
+    <Tag.Root colorPalette="purple" size="xl" variant="subtle" {...tagProps}>
       {skillColor && (
         <Tag.StartElement display="flex" alignItems="center">
           <Circle
@@ -32,7 +39,7 @@ const HobbyTag = ({ name, skillLevel, showRemove = false }: HobbyTagProps) => {
       </Tag.Label>
       {showRemove && (
         <Tag.EndElement color="purple.400">
-          <Tag.CloseTrigger />
+          <Tag.CloseTrigger onClick={onRemove} />
         </Tag.EndElement>
       )}
     </Tag.Root>

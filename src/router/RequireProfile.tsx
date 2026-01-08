@@ -25,7 +25,7 @@ const RequireProfile = () => {
   // data.me.hobbies.length > 0;
 
   if (!isProfileComplete) {
-    return <Navigate to="/my-profile" replace />;
+    return <Navigate to="/onboarding" replace />;
   }
 
   return <Outlet />;

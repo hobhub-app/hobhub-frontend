@@ -67,3 +67,33 @@ export interface UsersData {
 export interface UserData {
   user: UserPreview;
 }
+
+export type CompleteOnboardingInput = {
+  dateOfBirth: Date;
+  location: string;
+  gender?: string | null;
+  profileDescription?: string | null;
+  profileImageUrl?: string | null;
+  hobbies: {
+    hobbyId: number;
+    skillLevel?: string | null;
+  }[];
+};
+
+export interface CompleteOnboardingResult {
+  completeOnboarding: {
+    id: number;
+    age: number | null;
+    location: string | null;
+    profileImageUrl: string | null;
+    profileDescription: string | null;
+    hobbies: {
+      id: number;
+      skillLevel: string | null;
+      hobby: {
+        id: number;
+        name: string;
+      };
+    }[];
+  };
+}

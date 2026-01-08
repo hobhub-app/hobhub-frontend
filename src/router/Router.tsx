@@ -12,6 +12,7 @@ import WelcomePage from "@/pages/Start/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
 import RequireProfile from "./RequireProfile";
+import OnboardingPage from "@/pages/MyProfile/onboarding/OnboardingPage";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         element: <RequireAuth />,
         children: [
+          {
+            path: "/onboarding",
+            element: <OnboardingPage />,
+          },
           {
             path: "/my-profile",
             element: <MyProfilePage />,
