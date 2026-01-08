@@ -18,16 +18,20 @@ import {
   Input,
   Button,
   HStack,
+  Heading,
 } from "@chakra-ui/react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import formatMessageDate from "./utils/formatMessageDate";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { SEND_MESSAGE } from "@/graphql/mutations/conversations";
 import useChatSocket from "@/hooks/useChatSocket";
 import PageSpinner from "@/components/atoms/PageSpinner";
 import StatusAlert from "@/components/atoms/StatusAlert";
 import { useTranslation } from "react-i18next";
+import BackButton from "@/components/atoms/BackButton";
+import InfoHeader from "@/components/organisms/InfoHeader/InfoHeader";
+import { INFO_HEADER_HEIGHT } from "@/constants/layout";
 
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
@@ -49,6 +53,8 @@ const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessagesData["messages"]>([]);
   const [activeMessageId, setActiveMessageId] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const previousMessageCount = useRef(0);
 
   const { data, loading, error } = useQuery<ChatMessagesData>(
     MY_CONVERSATION_MESSAGES,
@@ -84,6 +90,34 @@ const ChatPage = () => {
         ? chatData.chat.user2Id
         : chatData.chat.user1Id
       : undefined);
+
+  const otherUserName = messages.find((m) => m.senderId !== meId)?.sender
+    ? `${messages.find((m) => m.senderId !== meId)!.sender.firstname} ${
+        messages.find((m) => m.senderId !== meId)!.sender.lastname
+      }`
+    : "Chat";
+
+  const scrollToBottom = (smooth = true) => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: smooth ? "smooth" : "auto",
+    });
+  };
+
+  useEffect(() => {
+    if (messages.length > 0 && previousMessageCount.current === 0) {
+      scrollToBottom(false);
+    }
+    previousMessageCount.current = messages.length;
+  }, [messages]);
+
+  useEffect(() => {
+    if (
+      messages.length > previousMessageCount.current &&
+      previousMessageCount.current > 0
+    ) {
+      scrollToBottom(true);
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (!lastMessage) return;
@@ -148,8 +182,12 @@ const ChatPage = () => {
   };
 
   return (
-    <Box>
-      <VStack>
+    <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
+      <InfoHeader
+        left={<BackButton />}
+        title={<Heading textStyle="md">{otherUserName}</Heading>}
+      />
+      <VStack w="full">
         {messages.length === 0 && (
           <Text color="neutral.100">{t("chat.welcome_message")}</Text>
         )}
@@ -169,15 +207,16 @@ const ChatPage = () => {
             >
               <Text
                 fontSize="xs"
-                color="gray.500"
+                color="beige.300"
                 mb={1}
                 textAlign={isMine ? "right" : "left"}
               >
                 {name}
               </Text>
               <Box
-                bg={isMine ? "blue.500" : "gray.100"}
-                color={isMine ? "white" : "gray.800"}
+                bg={isMine ? "beige.50" : "purple.200"}
+                color={isMine ? "neutral.900" : "neutral.100"}
+                fontWeight="400"
                 px={3}
                 py={2}
                 borderRadius="lg"
@@ -202,14 +241,20 @@ const ChatPage = () => {
             </Box>
           );
         })}
+        <div ref={messagesEndRef} />
       </VStack>
 
       <Box
         as="form"
         onSubmit={handleSendMessage}
-        w="full"
-        pt={8}
-        justifySelf="flex-end"
+        position="fixed"
+        bottom={0}
+        left={0}
+        right={0}
+        zIndex={1000}
+        bg="neutral.800"
+        px={2}
+        pb={4}
       >
         <HStack>
           <Field.Root>
@@ -225,7 +270,7 @@ const ChatPage = () => {
           </Button>
         </HStack>
       </Box>
-    </Box>
+    </VStack>
   );
 };
 
