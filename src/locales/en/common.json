@@ -11,14 +11,16 @@
     "submit": "Submit",
     "edit": "Edit",
     "delete": "Delete",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "start_chat": "Start chat"
+  },
+  "calendar": {
+    "yesterday": "Yesterday"
   },
   "navigation": {
     "home": "Home",
     "profile": "My Profile",
-    "messages": "Messages",
-    "saved": "Saved",
-    "settings": "Settings"
+    "messages": "Messages"
   },
   "constants": {
     "skill_levels": {
@@ -97,11 +99,36 @@
     }
   },
   "profile": {
+    "sub_heading": {
+      "hobbies": "Hobbies",
+      "about": "About me"
+    },
+    "age": "years",
+    "member": "Member since ",
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "error": "User not found",
+      "error_description": "This profile could not be loaded."
+    }
+  },
+  "my_profile": {
+    "heading": "My profile",
+    "sub_heading": {
+      "hobbies": "Hobbies",
+      "about": "About"
+    },
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "error": "Profile not found",
+      "error_description": "Your profile could not be loaded."
+    },
     "settings": {
       "title": "Settings",
-      "language_label": "Chosen language: {{language}}",
-      "logout": "Logout",
-      "logout_description": "Sign out of your account"
+      "language_label": "{{language}}"
+    },
+    "languages": {
+      "en": "English",
+      "sv": "Swedish"
     }
   }
 }

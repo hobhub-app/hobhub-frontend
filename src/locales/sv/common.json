@@ -11,14 +11,16 @@
     "submit": "Skicka",
     "edit": "Redigera",
     "delete": "Radera",
-    "confirm": "Bekräfta"
+    "confirm": "Bekräfta",
+    "start_chat": "Skicka meddelande"
+  },
+  "calendar": {
+    "yesterday": "igår"
   },
   "navigation": {
     "home": "Hem",
     "profile": "Min Profil",
-    "messages": "Meddelanden",
-    "saved": "Sparade",
-    "settings": "Inställningar"
+    "messages": "Meddelanden"
   },
   "constants": {
     "skill_levels": {
@@ -83,8 +85,8 @@
       "personal": "Personligt"
     },
     "alerts": {
-      "success": "Profil sparad framgångsrikt!",
-      "success_description": "Omdirigerar dig för att bläddra bland användare",
+      "success": "Profil sparad!",
+      "success_description": "Omdirigerar dig för att se användare",
       "error": "Misslyckades med att spara profil",
       "error_description": "Något gick fel när din profil sparades. Försök igen.",
       "error_hobbies": "Kunde inte hämta hobbys"
@@ -97,11 +99,36 @@
     }
   },
   "profile": {
+    "sub_heading": {
+      "hobbies": "Hobbys",
+      "about": "Om"
+    },
+    "age": "år",
+    "member": "Medlem sedan ",
+    "alerts": {
+      "success": "Profil sparad!",
+      "error": "Användare ej funnen",
+      "error_description": "Denna profil kunde inte laddas."
+    }
+  },
+  "my_profile": {
+    "heading": "Min profil",
+    "sub_heading": {
+      "hobbies": "Hobbys",
+      "about": "Om mig"
+    },
+    "alerts": {
+      "success": "Profil sparad",
+      "error": "Profil ej funnen",
+      "error_description": "Din profil kunde inte laddas."
+    },
     "settings": {
       "title": "Inställningar",
-      "language_label": "Valt språk: {{language}}",
-      "logout": "Logga ut",
-      "logout_description": "Logga ut från ditt konto"
+      "language_label": "{{language}}"
+    },
+    "languages": {
+      "en": "Engelska",
+      "sv": "Svenska"
     }
   }
 }

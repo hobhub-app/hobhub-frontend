@@ -22,16 +22,11 @@ import PageSpinner from "@/components/atoms/PageSpinner";
 import InlineIcon from "@/components/atoms/InlineIcon";
 import { useState } from "react";
 import LanguageSwitch from "@/components/molecules/LanguageSwitch";
-import { languages } from "@/constants/languages";
 import { useTranslation } from "react-i18next";
 
 const MyProfilePage = () => {
   const [open, setOpen] = useState(false);
-  const { i18n } = useTranslation();
-
-  const currentLanguage = languages.find(
-    (lang) => lang.value === i18n.language
-  );
+  const { i18n, t } = useTranslation();
 
   const { data, loading, error } = useQuery<MeProfileData>(ME_PROFILE);
 
@@ -40,8 +35,8 @@ const MyProfilePage = () => {
     return (
       <StatusAlert
         status="error"
-        title="Profile not found"
-        description="Your profile could not be loaded."
+        title={t("my_profile.error")}
+        description={t("my_profile.error_description")}
       />
     );
   }
@@ -65,9 +60,7 @@ const MyProfilePage = () => {
     <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
       <Dialog.Root lazyMount open={open} onOpenChange={(e) => setOpen(e.open)}>
         <InfoHeader
-          //TODO: Add translation
-          title={<Heading>My Profile</Heading>}
-          //TODO: Add settings icon
+          title={<Heading>{t("my_profile.heading")}</Heading>}
           right={
             <Dialog.Trigger asChild>
               <Box as="button" cursor="pointer">
@@ -90,37 +83,21 @@ const MyProfilePage = () => {
                   fontWeight="800"
                   textStyle="lg"
                 >
-                  {/* TODO: Add translation */}
-                  Settings
+                  {t("my_profile.settings.title")}
                 </Dialog.Title>
               </Dialog.Header>
               <Dialog.Body>
                 <VStack alignItems="start" gap={8}>
                   <VStack alignItems="start">
                     <Text fontSize="md">
-                      Chosen language: {currentLanguage?.label || i18n.language}
+                      {t("profile.settings.language_label", {
+                        language: t(`profile.languages.${i18n.language}`),
+                      })}
                     </Text>
                     <LanguageSwitch />
                   </VStack>
-                  <VStack alignItems="start">
-                    <Heading textStyle="label" fontWeight="600">
-                      Logout
-                    </Heading>
-                    <Text fontSize="sm" color="gray.600">
-                      Sign out of your account
-                    </Text>
-                  </VStack>
                 </VStack>
               </Dialog.Body>
-
-              {/* <Dialog.Footer>
-                <Dialog.ActionTrigger asChild>
-
-                  <Button variant="plain">Cancel</Button>
-                </Dialog.ActionTrigger>
-
-                <Button variant="plain">Save</Button>
-              </Dialog.Footer> */}
               <Dialog.CloseTrigger asChild color="purple.200">
                 <CloseButton size="md" />
               </Dialog.CloseTrigger>
@@ -138,8 +115,7 @@ const MyProfilePage = () => {
       />
 
       <VStack width="full" alignItems="start" gap={2} px={2}>
-        {/* TODO: Add translation */}
-        <Heading textStyle="md">Hobbies</Heading>
+        <Heading textStyle="md">{t("my_profile.sub_heading.hobbies")}</Heading>
         <HStack width="full">
           {hobbies.map(({ hobby, id, skillLevel }) => {
             return (
@@ -150,9 +126,8 @@ const MyProfilePage = () => {
       </VStack>
 
       <VStack width="full" alignItems="start" gap={2}>
-        {/* TODO: Add translation */}
         <Heading textStyle="md" px={2}>
-          About
+          {t("my_profile.sub_heading.about")}
         </Heading>
         <Card.Root
           width="full"

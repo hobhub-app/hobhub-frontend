@@ -1,3 +1,5 @@
+import i18n from "../../../config/i18n";
+
 const formatMessageDate = (isoDate: string) => {
   const date = new Date(isoDate);
   const now = new Date();
@@ -23,7 +25,7 @@ const formatMessageDate = (isoDate: string) => {
     date.getDate() === yesterday.getDate();
 
   if (isYesterday) {
-    return "Yesterday";
+    return i18n.t("calendar.yesterday");
   }
 
   return date.toLocaleDateString();

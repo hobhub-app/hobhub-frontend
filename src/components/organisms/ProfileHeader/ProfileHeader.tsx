@@ -9,6 +9,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import Wiggly from "@/assets/icons/wiggly-line.svg";
+import { useTranslation } from "react-i18next";
 
 type ProfileHeaderProps = {
   name: string;
@@ -27,6 +28,8 @@ const ProfileHeader = ({
   imageUrl,
   actions,
 }: ProfileHeaderProps) => {
+  const { t } = useTranslation();
+
   return (
     <VStack
       bg="neutral.900"
@@ -51,9 +54,8 @@ const ProfileHeader = ({
         </Heading>
         <HStack>
           <Image src={Wiggly} alt="Decorative wiggly line" />
-          {/* TODO: Add translation */}
           <Text fontSize="lg" lineHeight={1.25} fontWeight="600">
-            {age} år
+            {age} {t("profile.age")}
           </Text>
           <Image src={Wiggly} alt="Decorative wiggly line" />
         </HStack>
@@ -65,8 +67,9 @@ const ProfileHeader = ({
         </HStack>
         <HStack gap={1}>
           <InlineIcon name="verified" color="yellow.100" fontSize="1.5rem" />
-          {/* TODO: Add translation */}
-          <Text fontSize="sm">Medlem sedan: {memberSince}</Text>
+          <Text fontSize="sm">
+            {t("profile.member")} {memberSince}
+          </Text>
         </HStack>
       </HStack>
       {actions && <Box>{actions}</Box>}
