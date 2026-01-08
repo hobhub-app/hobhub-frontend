@@ -21,6 +21,7 @@ const Layout = () => {
         bgColor="neutral.800"
         pt={1}
         px={2}
+        animation="fadeIn 0.3s ease"
       >
         <Outlet />
       </Box>
