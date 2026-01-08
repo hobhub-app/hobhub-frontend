@@ -79,7 +79,15 @@ const MessagesPage = () => {
   }
 
   return (
-    <Box>
+    <VStack w="full">
+      {chats.length === 0 && (
+        <VStack textAlign="center" py={8} gap={2}>
+          <Text fontSize="lg" fontWeight="600" color="beige.50">
+            {t("messages.empty.title")}
+          </Text>
+          <Text color="neutral.100">{t("messages.empty.description")}</Text>
+        </VStack>
+      )}
       {chats.map((chat) => {
         const { id, lastMessageAt, lastMessageContent } = chat;
 
@@ -126,7 +134,7 @@ const MessagesPage = () => {
           </Box>
         );
       })}
-    </Box>
+    </VStack>
   );
 };
 

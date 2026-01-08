@@ -150,6 +150,10 @@ const ChatPage = () => {
   return (
     <Box>
       <VStack>
+        {messages.length === 0 && (
+          <Text color="neutral.100">{t("chat.welcome_message")}</Text>
+        )}
+
         {messages.map(({ id, senderId, content, createdAt, sender }) => {
           const isMine = senderId === meId;
           const name = isMine
