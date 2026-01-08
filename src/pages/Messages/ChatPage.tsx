@@ -18,6 +18,7 @@ import {
   Input,
   Button,
   HStack,
+  Heading,
 } from "@chakra-ui/react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -28,6 +29,9 @@ import useChatSocket from "@/hooks/useChatSocket";
 import PageSpinner from "@/components/atoms/PageSpinner";
 import StatusAlert from "@/components/atoms/StatusAlert";
 import { useTranslation } from "react-i18next";
+import BackButton from "@/components/atoms/BackButton";
+import InfoHeader from "@/components/organisms/InfoHeader/InfoHeader";
+import { INFO_HEADER_HEIGHT } from "@/constants/layout";
 
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
@@ -84,6 +88,12 @@ const ChatPage = () => {
         ? chatData.chat.user2Id
         : chatData.chat.user1Id
       : undefined);
+
+  const otherUserName = messages.find((m) => m.senderId !== meId)?.sender
+    ? `${messages.find((m) => m.senderId !== meId)!.sender.firstname} ${
+        messages.find((m) => m.senderId !== meId)!.sender.lastname
+      }`
+    : "Chat";
 
   useEffect(() => {
     if (!lastMessage) return;
@@ -148,8 +158,12 @@ const ChatPage = () => {
   };
 
   return (
-    <Box>
-      <VStack>
+    <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
+      <InfoHeader
+        left={<BackButton />}
+        title={<Heading textStyle="md">{otherUserName}</Heading>}
+      />
+      <VStack w="full">
         {messages.length === 0 && (
           <Text color="neutral.100">{t("chat.welcome_message")}</Text>
         )}
@@ -169,15 +183,16 @@ const ChatPage = () => {
             >
               <Text
                 fontSize="xs"
-                color="gray.500"
+                color="beige.300"
                 mb={1}
                 textAlign={isMine ? "right" : "left"}
               >
                 {name}
               </Text>
               <Box
-                bg={isMine ? "blue.500" : "gray.100"}
-                color={isMine ? "white" : "gray.800"}
+                bg={isMine ? "beige.50" : "purple.200"}
+                color={isMine ? "neutral.900" : "neutral.100"}
+                fontWeight="400"
                 px={3}
                 py={2}
                 borderRadius="lg"
@@ -211,21 +226,36 @@ const ChatPage = () => {
         pt={8}
         justifySelf="flex-end"
       >
-        <HStack>
-          <Field.Root>
-            <Input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder={t("chat.message_placeholder")}
-            />
-          </Field.Root>
-          <Button type="submit" loading={sending} disabled={!newMessage.trim()}>
-            <RiSendPlaneFill />
-          </Button>
-        </HStack>
+        <Box
+          position="fixed"
+          bottom={0}
+          left={0}
+          right={0}
+          zIndex={1000}
+          bg="neutral.800"
+          px={2}
+          pb={4}
+        >
+          <HStack>
+            <Field.Root>
+              <Input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder={t("chat.message_placeholder")}
+              />
+            </Field.Root>
+            <Button
+              type="submit"
+              loading={sending}
+              disabled={!newMessage.trim()}
+            >
+              <RiSendPlaneFill />
+            </Button>
+          </HStack>
+        </Box>
       </Box>
-    </Box>
+    </VStack>
   );
 };
 

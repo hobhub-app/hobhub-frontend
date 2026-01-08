@@ -7,6 +7,8 @@ import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 const Layout = () => {
   const keyboardVisible = useKeyboardVisible();
   const isUserProfilePage = useMatch("/profile/:userId");
+  const isChatPage = useMatch("/messages/:chatId");
+  const isOnboardingPage = useMatch("/onboarding");
 
   return (
     <>
@@ -22,7 +24,10 @@ const Layout = () => {
       >
         <Outlet />
       </Box>
-      {!isUserProfilePage && !keyboardVisible && <Navbar />}
+      {!isUserProfilePage &&
+        !isChatPage &&
+        !isOnboardingPage &&
+        !keyboardVisible && <Navbar />}
     </>
   );
 };
