@@ -2,7 +2,15 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { REGISTER_MUTATION } from "@/graphql/mutations/auth";
 import type { RegisterUserResponse } from "@/graphql/types/auth";
 import { useMutation } from "@apollo/client/react";
-import { Box, Button, VStack, Image, Field, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  VStack,
+  Image,
+  Field,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import FormLabel from "@/components/atoms/FormLabel";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -59,108 +67,117 @@ const RegisterPage = () => {
     <Box
       minH="100vh"
       display="flex"
-      alignItems="center"
-      justifyContent="center"
+      flexDirection="column"
+      justifyContent="space-between"
     >
-      <VStack w="full" maxW="sm" mx="auto" mt={12}>
-        <Image
-          src={hobhubLogo}
-          alt={t("logo.alt_text")}
-          boxSize="180px"
-          objectFit="contain"
-        />
-
-        <Box
-          as="form"
-          onSubmit={handleSubmit(onSubmit)}
-          display="flex"
-          flexDir="column"
-          gap="6"
-          width="full"
-        >
-          <VStack gap="4">
-            <Field.Root invalid={!!errors.firstname}>
-              <FormLabel>
-                {t("firstname_label")}{" "}
-                <InlineIcon name="stylus_note" color="green.200" />
-              </FormLabel>
-              <Input
-                type="text"
-                aria-required="true"
-                placeholder={t("firstname_placeholder")}
-                {...register("firstname", {
-                  required: t("firstname_error_required"),
-                })}
-              />
-              <Field.ErrorText>{errors.firstname?.message}</Field.ErrorText>
-            </Field.Root>
-
-            <Field.Root invalid={!!errors.lastname}>
-              <FormLabel>
-                {t("lastname_label")}{" "}
-                <InlineIcon name="stylus_note" color="green.200" />
-              </FormLabel>
-              <Input
-                type="text"
-                aria-required="true"
-                placeholder={t("lastname_placeholder")}
-                {...register("lastname", {
-                  required: t("lastname_error_required"),
-                })}
-              />
-              <Field.ErrorText>{errors.lastname?.message}</Field.ErrorText>
-            </Field.Root>
-
-            <Field.Root invalid={!!errors.email}>
-              <FormLabel>
-                {t("email_label")}
-                <InlineIcon name="alternate_email" color="yellow.100" />
-              </FormLabel>
-              <Input
-                type="email"
-                aria-required="true"
-                placeholder={t("email_placeholder")}
-                {...register("email", {
-                  required: t("email_error_required"),
-                })}
-              />
-              <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
-            </Field.Root>
-
-            <Field.Root invalid={!!errors.password}>
-              <FormLabel>
-                {t("password_label")}{" "}
-                <InlineIcon name="password" color="purple.200" />
-              </FormLabel>
-              <PasswordInput
-                aria-required="true"
-                placeholder={t("password_placeholder")}
-                {...register("password", {
-                  required: t("password_error_required"),
-                  minLength: {
-                    value: 8,
-                    message: t("password_error_min_length"),
-                  },
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-                    message: t("password_error_complexity"),
-                  },
-                })}
-              />
-              <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
-            </Field.Root>
+      <Box flex="1" display="flex" alignItems="center" justifyContent="center">
+        <VStack w="full" maxW="sm" mx="auto" gap={16}>
+          <VStack gap={1}>
+            <Image
+              src={hobhubLogo}
+              alt={t("logo.alt_text")}
+              boxSize="180px"
+              objectFit="contain"
+            />
+            <Text textStyle="lg">{t("welcome.tagline")}</Text>
           </VStack>
-          <Button type="submit" loading={loading}>
-            {t("actions.register")}
-          </Button>
-          {error && <StatusAlert status={"error"} title={error.message} />}
-        </Box>
 
-        <Link to={"/welcome"} whiteSpace="pre-line">
-          {t("register.go_back")}{" "}
-          <InlineIcon name="person_add" fontSize="2xl" color="yellow.100" />
+          <Box
+            as="form"
+            onSubmit={handleSubmit(onSubmit)}
+            display="flex"
+            flexDir="column"
+            gap="6"
+            width="full"
+          >
+            <VStack gap="4">
+              <Field.Root invalid={!!errors.firstname}>
+                <FormLabel>
+                  {t("firstname_label")}{" "}
+                  <InlineIcon name="stylus_note" color="green.200" />
+                </FormLabel>
+                <Input
+                  type="text"
+                  aria-required="true"
+                  placeholder={t("firstname_placeholder")}
+                  {...register("firstname", {
+                    required: t("firstname_error_required"),
+                  })}
+                />
+                <Field.ErrorText>{errors.firstname?.message}</Field.ErrorText>
+              </Field.Root>
+
+              <Field.Root invalid={!!errors.lastname}>
+                <FormLabel>
+                  {t("lastname_label")}{" "}
+                  <InlineIcon name="stylus_note" color="green.200" />
+                </FormLabel>
+                <Input
+                  type="text"
+                  aria-required="true"
+                  placeholder={t("lastname_placeholder")}
+                  {...register("lastname", {
+                    required: t("lastname_error_required"),
+                  })}
+                />
+                <Field.ErrorText>{errors.lastname?.message}</Field.ErrorText>
+              </Field.Root>
+
+              <Field.Root invalid={!!errors.email}>
+                <FormLabel>
+                  {t("email_label")}
+                  <InlineIcon name="alternate_email" color="yellow.100" />
+                </FormLabel>
+                <Input
+                  type="email"
+                  aria-required="true"
+                  placeholder={t("email_placeholder")}
+                  {...register("email", {
+                    required: t("email_error_required"),
+                  })}
+                />
+                <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
+              </Field.Root>
+
+              <Field.Root invalid={!!errors.password}>
+                <FormLabel>
+                  {t("password_label")}{" "}
+                  <InlineIcon name="password" color="purple.200" />
+                </FormLabel>
+                <PasswordInput
+                  aria-required="true"
+                  placeholder={t("password_placeholder")}
+                  {...register("password", {
+                    required: t("password_error_required"),
+                    minLength: {
+                      value: 8,
+                      message: t("password_error_min_length"),
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                      message: t("password_error_complexity"),
+                    },
+                  })}
+                />
+                <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
+              </Field.Root>
+            </VStack>
+            <Button type="submit" loading={loading}>
+              {t("actions.register")}
+            </Button>
+            {error && <StatusAlert status={"error"} title={error.message} />}
+          </Box>
+        </VStack>
+      </Box>
+
+      <Box p={4} pb={8}>
+        <Link to={"/welcome"} display="flex" justifyContent="center">
+          <Text textStyle="lg" textAlign="center">
+            {t("register.go_back")}{" "}
+            <InlineIcon name="person_add" fontSize="2xl" color="yellow.100" />
+          </Text>
         </Link>
-      </VStack>
+      </Box>
     </Box>
   );
 };
