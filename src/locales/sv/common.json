@@ -12,7 +12,10 @@
     "edit": "Redigera",
     "delete": "Radera",
     "confirm": "Bekräfta",
-    "start_chat": "Skicka meddelande"
+    "start_chat": "Skicka meddelande",
+    "search": "Sök",
+    "filter": "Filter",
+    "sort": "Sortera"
   },
   "calendar": {
     "yesterday": "igår"
@@ -129,6 +132,29 @@
     "languages": {
       "en": "Engelska",
       "sv": "Svenska"
+    }
+  },
+  "browse": {
+    "alerts": {
+      "success": "Profil sparad framgångsrikt!",
+      "error": "Något gick fel",
+      "error_description": "Vi kunde inte ladda användare just nu. Försök igen.",
+      "info": "Inga användare hittades",
+      "info_description": "Försök med andra sökkriterier."
+    },
+    "filter": {
+      "heading": {
+        "sort": "Sortera användare efter",
+        "filter": "Filtrera användare efter"
+      },
+      "similar": "Mest liknande",
+      "near": "Närmast",
+      "gender": "Kön",
+      "woman": "Kvinna",
+      "man": "Man",
+      "hobby": "Hobby",
+      "search": "Sök efter hobby",
+      "clear": "Rensa filter"
     }
   }
 }

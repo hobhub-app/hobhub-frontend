@@ -12,8 +12,12 @@
     "edit": "Edit",
     "delete": "Delete",
     "confirm": "Confirm",
-    "start_chat": "Start chat"
+    "start_chat": "Start chat",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort"
   },
+
   "calendar": {
     "yesterday": "Yesterday"
   },
@@ -129,6 +133,29 @@
     "languages": {
       "en": "English",
       "sv": "Swedish"
+    }
+  },
+  "browse": {
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "error": "Something went wrong",
+      "error_description": "We couldn’t load users right now. Please try again.",
+      "info": "No users found",
+      "info_description": "Please try with other search criterias."
+    },
+    "filter": {
+      "heading": {
+        "sort": "Sort users on",
+        "filter": "Filter users on"
+      },
+      "similar": "Most similar",
+      "near": "Nearest",
+      "gender": "Gender",
+      "woman": "Woman",
+      "man": "Man",
+      "hobby": "Hobby",
+      "search": "Search hobby",
+      "clear": "Clear filters"
     }
   }
 }
