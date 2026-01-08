@@ -23,7 +23,7 @@ import {
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import formatMessageDate from "./utils/formatMessageDate";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { SEND_MESSAGE } from "@/graphql/mutations/conversations";
 import useChatSocket from "@/hooks/useChatSocket";
 import PageSpinner from "@/components/atoms/PageSpinner";
@@ -53,6 +53,8 @@ const ChatPage = () => {
   const [messages, setMessages] = useState<ChatMessagesData["messages"]>([]);
   const [activeMessageId, setActiveMessageId] = useState<number | null>(null);
   const [newMessage, setNewMessage] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const previousMessageCount = useRef(0);
 
   const { data, loading, error } = useQuery<ChatMessagesData>(
     MY_CONVERSATION_MESSAGES,
@@ -94,6 +96,28 @@ const ChatPage = () => {
         messages.find((m) => m.senderId !== meId)!.sender.lastname
       }`
     : "Chat";
+
+  const scrollToBottom = (smooth = true) => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: smooth ? "smooth" : "auto",
+    });
+  };
+
+  useEffect(() => {
+    if (messages.length > 0 && previousMessageCount.current === 0) {
+      scrollToBottom(false);
+    }
+    previousMessageCount.current = messages.length;
+  }, [messages]);
+
+  useEffect(() => {
+    if (
+      messages.length > previousMessageCount.current &&
+      previousMessageCount.current > 0
+    ) {
+      scrollToBottom(true);
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (!lastMessage) return;
@@ -217,43 +241,34 @@ const ChatPage = () => {
             </Box>
           );
         })}
+        <div ref={messagesEndRef} />
       </VStack>
 
       <Box
         as="form"
         onSubmit={handleSendMessage}
-        w="full"
-        pt={8}
-        justifySelf="flex-end"
+        position="fixed"
+        bottom={0}
+        left={0}
+        right={0}
+        zIndex={1000}
+        bg="neutral.800"
+        px={2}
+        pb={4}
       >
-        <Box
-          position="fixed"
-          bottom={0}
-          left={0}
-          right={0}
-          zIndex={1000}
-          bg="neutral.800"
-          px={2}
-          pb={4}
-        >
-          <HStack>
-            <Field.Root>
-              <Input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder={t("chat.message_placeholder")}
-              />
-            </Field.Root>
-            <Button
-              type="submit"
-              loading={sending}
-              disabled={!newMessage.trim()}
-            >
-              <RiSendPlaneFill />
-            </Button>
-          </HStack>
-        </Box>
+        <HStack>
+          <Field.Root>
+            <Input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder={t("chat.message_placeholder")}
+            />
+          </Field.Root>
+          <Button type="submit" loading={sending} disabled={!newMessage.trim()}>
+            <RiSendPlaneFill />
+          </Button>
+        </HStack>
       </Box>
     </VStack>
   );
