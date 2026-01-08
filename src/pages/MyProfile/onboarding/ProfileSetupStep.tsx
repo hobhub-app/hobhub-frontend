@@ -141,9 +141,8 @@ const ProfileSetupStep = ({
         />
 
         <Text fontSize="xs">
-          {t("onboarding.sub_content.character_count", {
-            count: description.length,
-          })}
+          {description.length}
+          {t("onboarding.sub_content.max_length")}
         </Text>
       </VStack>
     </VStack>

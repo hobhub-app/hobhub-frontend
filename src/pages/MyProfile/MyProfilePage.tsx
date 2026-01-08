@@ -90,8 +90,8 @@ const MyProfilePage = () => {
                 <VStack alignItems="start" gap={8}>
                   <VStack alignItems="start">
                     <Text fontSize="md">
-                      {t("profile.settings.language_label", {
-                        language: t(`profile.languages.${i18n.language}`),
+                      {t("my_profile.settings.language_label", {
+                        language: t(`my_profile.languages.${i18n.language}`),
                       })}
                     </Text>
                     <LanguageSwitch />
