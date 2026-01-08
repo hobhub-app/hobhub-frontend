@@ -61,7 +61,7 @@
       "general": "We need this to help others find you.",
       "personal": "Make your profile stand out. Adding a profile picture and description helps you get more connections.",
       "personal_placeholder": "Tell others about yourself, your interests, or what you're looking for in a hobby buddy.",
-      "max_lenght": "/500 characters"
+      "max_length": "/500 characters"
     },
     "labels": {
       "birth_date": "Date of birth",
@@ -164,12 +164,19 @@
       "clear": "Clear filters"
     }
   },
+  "messages": {
+    "empty": {
+      "title": "No conversations yet",
+      "description": "Start connecting and start writing to someone from their profile!"
+    }
+  },
   "chat": {
     "alert": {
       "error": "Failed to load chat",
       "receiver_error": "Unable to load chat. Please open it from Messages."
     },
-    "message_placeholder": "Write your message"
+    "message_placeholder": "Write your message",
+    "welcome_message": "Start the conversation!"
   },
   "not_found": {
     "heading": "Page not found",

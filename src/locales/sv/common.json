@@ -61,7 +61,7 @@
       "general": "Vi behöver detta för att hjälpa andra att hitta dig.",
       "personal": "Få din profil att sticka ut. Att lägga till en profilbild och beskrivning hjälper dig att få fler kontakter.",
       "personal_placeholder": "Berätta för andra om dig själv, dina intressen eller vad du letar efter i en hobbypartner.",
-      "max_lenght": "/500 tecken"
+      "max_length": "/500 tecken"
     },
     "labels": {
       "birth_date": "Födelsedatum",
@@ -164,12 +164,19 @@
       "clear": "Rensa filter"
     }
   },
+  "messages": {
+    "empty": {
+      "title": "Du har inga konversationer ännu",
+      "description": "Börja connecta och skriv till någon från deras profil!"
+    }
+  },
   "chat": {
     "alert": {
       "error": "Kunde inte ladda chatt",
       "receiver_error": "Kunde inte ladda chatt. Öppna den från Meddelanden."
     },
-    "message_placeholder": "Skriv meddelande"
+    "message_placeholder": "Skriv meddelande",
+    "welcome_message": "Starta konversationen!"
   },
   "not_found": {
     "heading": "Sidan hittades inte",
