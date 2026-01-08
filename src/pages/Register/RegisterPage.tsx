@@ -2,15 +2,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { REGISTER_MUTATION } from "@/graphql/mutations/auth";
 import type { RegisterUserResponse } from "@/graphql/types/auth";
 import { useMutation } from "@apollo/client/react";
-import {
-  Box,
-  Button,
-  VStack,
-  Image,
-  Text,
-  Field,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Button, VStack, Image, Field, Input } from "@chakra-ui/react";
 import FormLabel from "@/components/atoms/FormLabel";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -18,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Link from "@/components/atoms/Link";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
 import InlineIcon from "@/components/atoms/InlineIcon";
+import StatusAlert from "@/components/atoms/StatusAlert";
 
 interface FormValues {
   firstname: string;
@@ -72,14 +65,10 @@ const RegisterPage = () => {
       <VStack w="full" maxW="sm" mx="auto" mt={12}>
         <Image
           src={hobhubLogo}
-          alt="HobHub logo"
+          alt={t("logo.alt_text")}
           boxSize="180px"
           objectFit="contain"
         />
-        {/* TODO: Add register text with translation */}
-        <Text fontSize="lg" textAlign="center">
-          Placeholder text. Register text goes here.
-        </Text>
 
         <Box
           as="form"
@@ -162,15 +151,14 @@ const RegisterPage = () => {
             </Field.Root>
           </VStack>
           <Button type="submit" loading={loading}>
-            {t("register")}
+            {t("actions.register")}
           </Button>
-          {/* TODO: Style error message properly, add it as an alert/notification? */}
-          {error && <span style={{ color: "red" }}>{error.message}</span>}
+          {error && <StatusAlert status={"error"} title={error.message} />}
         </Box>
 
-        <Link to={"/welcome"}>
-          {/* TODO: Add as translation */}
-          Not your preferred way to join? Go back to options.
+        <Link to={"/welcome"} whiteSpace="pre-line">
+          {t("register.go_back")}{" "}
+          <InlineIcon name="person_add" fontSize="2xl" color="yellow.100" />
         </Link>
       </VStack>
     </Box>

@@ -2,15 +2,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { LOGIN_MUTATION } from "@/graphql/mutations/auth";
 import type { LoginUserResponse } from "@/graphql/types/auth";
 import { useMutation } from "@apollo/client/react";
-import {
-  Box,
-  VStack,
-  Image,
-  Text,
-  Button,
-  Field,
-  Input,
-} from "@chakra-ui/react";
+import { Box, VStack, Image, Button, Field, Input } from "@chakra-ui/react";
 import FormLabel from "@/components/atoms/FormLabel";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -18,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Link from "@/components/atoms/Link";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
 import InlineIcon from "@/components/atoms/InlineIcon";
+import StatusAlert from "@/components/atoms/StatusAlert";
 
 interface FormValues {
   email: string;
@@ -33,7 +26,6 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  //TODO: Refactor to hook
   const [login, { loading, error }] =
     useMutation<LoginUserResponse>(LOGIN_MUTATION);
 
@@ -62,14 +54,10 @@ const LoginPage = () => {
       <VStack w="100%" maxW="sm" mx="auto" mt={12}>
         <Image
           src={hobhubLogo}
-          alt="HobHub logo"
+          alt={t("logo.alt_text")}
           boxSize="180px"
           objectFit="contain"
         />
-        {/* TODO: Add login text with translation */}
-        <Text fontSize="lg" textAlign="center">
-          Placeholder text. Login text goes here.
-        </Text>
 
         <Box
           as="form"
@@ -119,15 +107,14 @@ const LoginPage = () => {
             </Field.Root>
           </VStack>
           <Button type="submit" loading={loading}>
-            {t("login")}
+            {t("actions.login")}
           </Button>
-          {/* TODO: Style error message properly, add it as an alert / notification? */}
-          {error && <Text color="error.100">{error.message}</Text>}
+          {error && <StatusAlert status={"error"} title={error.message} />}
         </Box>
 
-        <Link to={"/welcome"}>
-          {/* TODO: Add as translation */}
-          Not your preferred way to join? Go back to options.
+        <Link to={"/welcome"} whiteSpace="pre-line">
+          {t("login.go_back")}
+          <InlineIcon name="person_add" fontSize="2xl" color="yellow.100" />
         </Link>
       </VStack>
     </Box>

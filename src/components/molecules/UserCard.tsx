@@ -125,7 +125,6 @@ const UserCard = ({ user, onClick }: UserCardProps) => {
         </HStack>
 
         <Card.Description color="neutral.100" fontSize="md">
-          {/* TODO: Add max length */}
           {profileDescription}
         </Card.Description>
       </Card.Body>

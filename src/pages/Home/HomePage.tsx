@@ -19,9 +19,11 @@ import SortFilterPanel from "@/components/organisms/SortFilterPanel";
 import { HOBBIES } from "@/graphql/queries/hobbies";
 import type { HobbiesData } from "@/graphql/types/hobby";
 import { useFilteredUsers } from "@/hooks/useFilteredUsers";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [panelMode, setPanelMode] = useState<"sort" | "filter">("sort");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -83,8 +85,7 @@ const HomePage = () => {
       <InputGroup endElement={endElement}>
         <Input
           ref={inputRef}
-          //TODO: Add translation
-          placeholder="Search"
+          placeholder={t("actions.search")}
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.currentTarget.value);
@@ -92,12 +93,11 @@ const HomePage = () => {
         />
       </InputGroup>
       <HStack w="full">
-        {/* TODO: Add translations */}
         <Button colorPalette="green" onClick={() => togglePanel("sort")}>
-          Sort
+          {t("actions.sort")}
         </Button>
         <Button colorPalette="green" onClick={() => togglePanel("filter")}>
-          Filter
+          {t("actions.filter")}
         </Button>
       </HStack>
 
@@ -132,8 +132,8 @@ const HomePage = () => {
         <StatusAlert
           status="error"
           colorPalette="red"
-          title="Something went wrong"
-          description="We couldn’t load users right now. Please try again."
+          title={t("browse.alerts.error")}
+          description={t("browse.alerts.error_description")}
         />
       )}
 
@@ -141,8 +141,8 @@ const HomePage = () => {
         <StatusAlert
           status="info"
           colorPalette="yellow"
-          //TODO: Add translation
-          title="No users found"
+          title={t("browse.alerts.info")}
+          description={t("browse.alerts.info_description")}
         />
       )}
 

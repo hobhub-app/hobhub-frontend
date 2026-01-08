@@ -14,6 +14,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { LuCamera } from "react-icons/lu";
 
 type ProfileSetupStepProps = {
@@ -29,6 +30,8 @@ const ProfileSetupStep = ({
   onProfileImageChange,
   onDescriptionChange,
 }: ProfileSetupStepProps) => {
+  const { t } = useTranslation();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [getSignature] =
     useMutation<GetUploadSignatureResult>(GET_UPLOAD_SIGNATURE);
@@ -38,7 +41,6 @@ const ProfileSetupStep = ({
     if (!file) return;
 
     const { data } = await getSignature();
-    console.log("UPLOAD SIGNATURE", data);
 
     if (!data) {
       throw new Error("No upload signature returned");
@@ -62,14 +64,10 @@ const ProfileSetupStep = ({
   return (
     <VStack align="stretch" gap={6}>
       <VStack align="start">
-        {/* TODO: Add translation */}
-        <Heading fontSize="lg">Finalize your profile</Heading>
+        <Heading fontSize="lg">{t("onboarding.sub_heading.personal")}</Heading>
 
-        {/* TODO: Add translation */}
         <Text color="neutral.100" fontSize="sm">
-          Make your profile stand out! Adding a profile picture and description
-          helps you get more connections. Your photo appears in search results
-          and your description shows on your profile page.
+          {t("onboarding.sub_content.personal")}
         </Text>
       </VStack>
 
@@ -77,7 +75,9 @@ const ProfileSetupStep = ({
         <VStack gap={3}>
           <Box asChild width={40} height={40}>
             <Avatar.Root size="full">
-              <Avatar.Fallback>Profile image</Avatar.Fallback>
+              <Avatar.Fallback>
+                {t("onboarding.profile_image.fallback")}
+              </Avatar.Fallback>
               <Avatar.Image src={profileImageUrl || undefined} />
             </Avatar.Root>
 
@@ -105,7 +105,9 @@ const ProfileSetupStep = ({
               onClick={triggerFileInput}
             >
               <LuCamera />
-              {profileImageUrl ? "Change Photo" : "Add Photo"}
+              {profileImageUrl
+                ? t("onboarding.profile_image.change")
+                : t("onboarding.profile_image.add_photo")}
             </Button>
           </HStack>
         </VStack>
@@ -120,11 +122,12 @@ const ProfileSetupStep = ({
       </VStack>
 
       <VStack gap={3} align="stretch">
-        {/* TODO: Add translation */}
-        <Heading textStyle="md">Profile Description</Heading>
+        <Heading textStyle="md">
+          {t("onboarding.sub_heading.personal_description")}
+        </Heading>
 
         <Textarea
-          placeholder="Tell others about yourself, your interests, or what you're looking for in a hobby buddy..."
+          placeholder={t("onboarding.sub_content.personal_placeholder")}
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
           rows={4}
@@ -137,7 +140,11 @@ const ProfileSetupStep = ({
           }}
         />
 
-        <Text fontSize="xs">{description.length}/500 characters</Text>
+        <Text fontSize="xs">
+          {t("onboarding.sub_content.character_count", {
+            count: description.length,
+          })}
+        </Text>
       </VStack>
     </VStack>
   );

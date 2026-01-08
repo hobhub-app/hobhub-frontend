@@ -18,6 +18,7 @@ import {
   createListCollection,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LuPlus } from "react-icons/lu";
 import { RiCloseLargeFill } from "react-icons/ri";
 
@@ -33,12 +34,13 @@ type HobbiesStepProps = {
 };
 
 const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
+  const { t } = useTranslation();
+
   const [pendingHobby, setPendingHobby] = useState<{
     value: string;
     label: string;
   } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-
   const [query, setQuery] = useState("");
 
   const selectedValues = new Set(selectedHobbies.map((h) => h.value));
@@ -82,24 +84,21 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
     return (
       <StatusAlert
         status="error"
-        title="User not found"
-        description="This profile could not be loaded."
+        title={t("onboarding.alerts.error_hobbies")}
       />
     );
   }
 
   return (
     <VStack align="stretch" gap={4}>
-      {/* TODO: Add translation */}
-      <Heading fontSize="lg">Select your hobbies</Heading>
+      <Heading fontSize="lg">{t("onboarding.sub_heading.hobbies")}</Heading>
 
-      {/* Open dialog explicitly */}
       <Button
         variant="solid"
         colorPalette="green"
         onClick={() => setIsOpen(true)}
       >
-        Add hobby <LuPlus />
+        {t("onboarding.actions.add_hobby")} <LuPlus />
       </Button>
 
       <Dialog.Root
@@ -116,16 +115,15 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
           <Dialog.Content bg="neutral.900">
             <HStack w="full" alignItems="center" justifyContent="space-between">
               <Dialog.Header flex="1">
-                {/* TODO: Add translation */}
                 <Dialog.Title fontSize="lg" fontWeight="800">
-                  Select a hobby
+                  {t("onboarding.dialog.heading")}
                 </Dialog.Title>
               </Dialog.Header>
               <Dialog.CloseTrigger
                 position="absolute"
                 top={2}
                 right={2}
-                aria-label="Close dialog"
+                aria-label={t("onboarding.dialog.close")}
                 color="neutral.100"
               >
                 <RiCloseLargeFill />
@@ -141,7 +139,7 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
                 >
                   <Listbox.Input
                     as={Input}
-                    placeholder="Search hobbies..."
+                    placeholder={t("onboarding.dialog.placeholder")}
                     onChange={(e) => setQuery(e.target.value)}
                   />
 
@@ -181,7 +179,8 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
                 {pendingHobby && (
                   <VStack align="stretch" gap={2}>
                     <Text>
-                      Skill level for <strong>{pendingHobby.label}</strong>
+                      {t("onboarding.dialog.skill_level_text")}
+                      <strong>{pendingHobby.label}</strong>
                     </Text>
 
                     <Wrap width="full">
@@ -204,7 +203,7 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
                             setIsOpen(false);
                           }}
                         >
-                          {level}
+                          {t(`constants.skill_levels.labels.${level}`)}
                         </Button>
                       ))}
                     </Wrap>
@@ -216,10 +215,11 @@ const HobbiesStep = ({ selectedHobbies, onChange }: HobbiesStepProps) => {
         </Dialog.Positioner>
       </Dialog.Root>
 
-      {/* Added hobbies */}
       {selectedHobbies.length > 0 && (
         <VStack gap={1} align="start">
-          <Text>Added hobbies</Text>
+          <Heading fontSize="lg">
+            {t("onboarding.sub_heading.hobbies_added")}
+          </Heading>
           <Wrap>
             {selectedHobbies.map((hobby) => (
               <HobbyTag

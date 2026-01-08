@@ -20,23 +20,24 @@ import ProfileHeader from "@/components/organisms/ProfileHeader/ProfileHeader";
 import BackButton from "@/components/atoms/BackButton";
 import InfoHeader from "@/components/organisms/InfoHeader/InfoHeader";
 import { INFO_HEADER_HEIGHT } from "@/constants/layout";
+import { useTranslation } from "react-i18next";
 
 const UserProfilePage = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { data, loading, error } = useQuery<UserData>(USER_BY_ID, {
     variables: { id: Number(userId) },
   });
-  console.log("data:", data);
 
   if (loading) return <PageSpinner />;
   if (error || !data?.user) {
     return (
       <StatusAlert
         status="error"
-        title="User not found"
-        description="This profile could not be loaded."
+        title={t("profile.alerts.error")}
+        description={t("profile.alerts.error_description")}
       />
     );
   }
@@ -62,7 +63,6 @@ const UserProfilePage = () => {
       <InfoHeader
         left={<BackButton />}
         title={<Heading textStyle="md">{userName}</Heading>}
-        //TODO: Add save user icon?
       />
       <ProfileHeader
         name={userName}
@@ -73,8 +73,7 @@ const UserProfilePage = () => {
       />
 
       <VStack width="full" alignItems="start" gap={2} px={2}>
-        {/* TODO: Add translation */}
-        <Heading textStyle="md">Hobbies</Heading>
+        <Heading textStyle="md">{t("profile.sub_heading.hobbies")}</Heading>
         <HStack width="full">
           {hobbies.map(({ hobby, id, skillLevel }) => {
             return (
@@ -87,9 +86,8 @@ const UserProfilePage = () => {
       </VStack>
 
       <VStack width="full" alignItems="start" gap={2}>
-        {/* TODO: Add translation */}
         <Heading textStyle="md" px={2}>
-          About
+          {t("profile.sub_heading.about")}
         </Heading>
         <Card.Root
           width="full"
@@ -115,13 +113,12 @@ const UserProfilePage = () => {
         px={2}
         pb={8}
       >
-        {/* TODO: Add translation */}
         <ChakraButton
           width="full"
           colorPalette="purple"
           onClick={() => navigate(`/messages/new?userId=${userId}`)}
         >
-          Start Chat
+          {t("actions.start_chat")}
         </ChakraButton>
       </Box>
     </VStack>

@@ -1,1 +1,174 @@
-{}
+{
+  "actions": {
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "save_profile": "Save profile",
+    "cancel": "Cancel",
+    "close": "Close",
+    "continue": "Continue",
+    "finish": "Finish",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "start_chat": "Start chat",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort"
+  },
+  "common": {
+    "unknown": "unknown user"
+  },
+
+  "alert": {
+    "error_general": "Something went wrong"
+  },
+  "calendar": {
+    "yesterday": "Yesterday"
+  },
+  "navigation": {
+    "home": "Home",
+    "profile": "My Profile",
+    "messages": "Messages"
+  },
+  "constants": {
+    "skill_levels": {
+      "levels": {
+        "beginner": "beginner",
+        "intermediate": "intermediate",
+        "advanced": "advanced",
+        "expert": "expert"
+      },
+      "labels": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced",
+        "expert": "Expert"
+      }
+    }
+  },
+  "onboarding": {
+    "heading": "Complete your profile",
+    "sub_heading": {
+      "general": "General information",
+      "hobbies": "Select your hobbies",
+      "hobbies_added": "Added hobbies",
+      "personal": "Finalize your profile",
+      "personal_description": "Profile description"
+    },
+    "sub_content": {
+      "general": "We need this to help others find you.",
+      "personal": "Make your profile stand out. Adding a profile picture and description helps you get more connections.",
+      "personal_placeholder": "Tell others about yourself, your interests, or what you're looking for in a hobby buddy.",
+      "max_lenght": "/500 characters"
+    },
+    "labels": {
+      "birth_date": "Date of birth",
+      "gender": "Select gender",
+      "location": "Location",
+      "hobbies": "Select your hobbies"
+    },
+    "dialog": {
+      "heading": "Select a hobby",
+      "close": "Close dialog",
+      "placeholder": "Search hobbies",
+      "skill_level_text": "Skill level for "
+    },
+    "profile_image": {
+      "fallback": "Profile Image",
+      "change": "Change photo",
+      "add_photo": "Add photo"
+    },
+    "gender": {
+      "woman": "Woman",
+      "man": "Man"
+    },
+    "steps": {
+      "basic_info": "Basic Information",
+      "hobbies": "Choose Your Hobbies",
+      "profile_setup": "Profile Setup"
+    },
+    "indicators": {
+      "general": "General",
+      "hobbies": "Hobbies",
+      "personal": "Personal"
+    },
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "success_description": "Redirecting you to browse users",
+      "error": "Failed to save profile",
+      "error_description": "Something went wrong while saving your profile. Please try again.",
+      "error_hobbies": "Hobbies not found"
+    },
+    "actions": {
+      "add_hobby": "Add hobby"
+    },
+    "skill_guide": {
+      "title": "Skill color guide"
+    }
+  },
+  "profile": {
+    "sub_heading": {
+      "hobbies": "Hobbies",
+      "about": "About me"
+    },
+    "age": "years",
+    "member": "Member since ",
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "error": "User not found",
+      "error_description": "This profile could not be loaded."
+    }
+  },
+  "my_profile": {
+    "heading": "My profile",
+    "sub_heading": {
+      "hobbies": "Hobbies",
+      "about": "About"
+    },
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "error": "Profile not found",
+      "error_description": "Your profile could not be loaded."
+    },
+    "settings": {
+      "title": "Settings",
+      "language_label": "{{language}}"
+    },
+    "languages": {
+      "en": "English",
+      "sv": "Swedish"
+    }
+  },
+  "browse": {
+    "alerts": {
+      "success": "Profile saved successfully!",
+      "error": "Something went wrong",
+      "error_description": "We couldn’t load users right now. Please try again.",
+      "info": "No users found",
+      "info_description": "Please try with other search criterias."
+    },
+    "filter": {
+      "heading": {
+        "sort": "Sort users on",
+        "filter": "Filter users on"
+      },
+      "similar": "Most similar",
+      "near": "Nearest",
+      "gender": "Gender",
+      "woman": "Woman",
+      "man": "Man",
+      "hobby": "Hobby",
+      "search": "Search hobby",
+      "clear": "Clear filters"
+    }
+  },
+  "chat": {
+    "alert": {
+      "error": "Failed to load chat",
+      "receiver_error": "Unable to load chat. Please open it from Messages."
+    },
+    "message_placeholder": "Write your message"
+  }
+}

@@ -1,8 +1,7 @@
 import NavItem from "@/components/molecules/NavItem/NavItem";
 import { Box, HStack, For } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import {
-  RiBookmarkFill,
-  RiBookmarkLine,
   RiHome2Fill,
   RiHome2Line,
   RiMessage3Fill,
@@ -11,34 +10,29 @@ import {
   RiUser3Line,
 } from "react-icons/ri";
 
-const navigationData = [
-  {
-    label: "Home",
-    path: "/",
-    icon: RiHome2Line,
-    activeIcon: RiHome2Fill,
-  },
-  {
-    label: "Messages",
-    path: "/messages",
-    icon: RiMessage3Line,
-    activeIcon: RiMessage3Fill,
-  },
-  {
-    label: "Saved",
-    path: "/saved",
-    icon: RiBookmarkLine,
-    activeIcon: RiBookmarkFill,
-  },
-  {
-    label: "Profile",
-    path: "/my-profile",
-    icon: RiUser3Line,
-    activeIcon: RiUser3Fill,
-  },
-];
-
 const Navbar = () => {
+  const { t } = useTranslation();
+
+  const navigationData = [
+    {
+      label: t("navigation.home"),
+      path: "/",
+      icon: RiHome2Line,
+      activeIcon: RiHome2Fill,
+    },
+    {
+      label: t("navigation.messages"),
+      path: "/messages",
+      icon: RiMessage3Line,
+      activeIcon: RiMessage3Fill,
+    },
+    {
+      label: t("navigation.profile"),
+      path: "/my-profile",
+      icon: RiUser3Line,
+      activeIcon: RiUser3Fill,
+    },
+  ];
   return (
     <Box
       position="fixed"

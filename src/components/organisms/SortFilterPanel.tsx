@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Input,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 type SortMode = "similar" | "nearest";
 type PanelMode = "sort" | "filter";
@@ -36,6 +37,8 @@ const SortFilterPanel = ({
   onSelectHobby,
   onClearFilters,
 }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <Collapsible.Root open={isOpen} width="full">
       <Collapsible.Content>
@@ -49,8 +52,7 @@ const SortFilterPanel = ({
           {mode === "sort" && (
             <VStack align="stretch" gap={3}>
               <Text fontWeight="800" fontFamily="heading">
-                {/* Todo: Add translation */}
-                Sort users on
+                {t("browse.filter.heading.sort")}
               </Text>
               <SimpleGrid columns={2} gap={2}>
                 <Button
@@ -58,8 +60,7 @@ const SortFilterPanel = ({
                   colorPalette="yellow"
                   onClick={() => onSelectSort("similar")}
                 >
-                  {/* Todo: Add translation */}
-                  Most similar
+                  {t("browse.filter.similar")}
                 </Button>
 
                 <Button
@@ -67,8 +68,7 @@ const SortFilterPanel = ({
                   colorPalette="yellow"
                   onClick={() => onSelectSort("nearest")}
                 >
-                  {/* Todo: Add translation */}
-                  Nearest
+                  {t("browse.filter.near")}
                 </Button>
               </SimpleGrid>
             </VStack>
@@ -77,13 +77,12 @@ const SortFilterPanel = ({
           {mode === "filter" && (
             <VStack align="stretch" gap={4}>
               <Text fontWeight="800" fontFamily="heading">
-                {/* Todo: Add translation */}
-                Filter users on
+                {t("browse.filter.heading.filter")}
               </Text>
 
               <VStack align="stretch">
                 <Text fontSize="sm" fontFamily="heading" fontWeight="600">
-                  Gender
+                  {t("browse.filter.gender")}
                 </Text>
                 <SimpleGrid columns={2} gap={2}>
                   <Button
@@ -95,30 +94,27 @@ const SortFilterPanel = ({
                       )
                     }
                   >
-                    {/* Todo: Add translation */}
-                    Women
+                    {t("browse.filter.woman")}
                   </Button>
                   <Button
                     variant="plain"
                     colorPalette="yellow"
                     onClick={() =>
-                      onSelectGender(selectedGender === "male" ? null : "male")
+                      onSelectGender(selectedGender === "man" ? null : "man")
                     }
                   >
-                    {/* Todo: Add translation */}
-                    Men
+                    {t("browse.filter.man")}
                   </Button>
                 </SimpleGrid>
               </VStack>
 
               <VStack align="stretch">
                 <Text fontSize="sm" fontFamily="heading" fontWeight="600">
-                  {/* Todo: Add translation */}
-                  Hobby
+                  {t("browse.filter.hobby")}
                 </Text>
 
                 <Input
-                  placeholder="Search hobby"
+                  placeholder={t("browse.filter.search")}
                   value={hobbyQuery}
                   onChange={(e) => onHobbyQueryChange(e.target.value)}
                 />
@@ -143,7 +139,7 @@ const SortFilterPanel = ({
                   colorPalette="red"
                   onClick={onClearFilters}
                 >
-                  Clear filters
+                  {t("browse.filter.clear")}
                 </Button>
               </VStack>
             </VStack>

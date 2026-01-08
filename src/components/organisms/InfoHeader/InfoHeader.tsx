@@ -2,9 +2,9 @@ import { INFO_HEADER_HEIGHT } from "@/constants/layout";
 import { Box, HStack } from "@chakra-ui/react";
 
 type InfoHeaderProps = {
-  left?: React.ReactNode; // back button
-  title: React.ReactNode; // text OR custom JSX
-  right?: React.ReactNode; // save icon, settings, etc
+  left?: React.ReactNode;
+  title: React.ReactNode;
+  right?: React.ReactNode;
 };
 
 const InfoHeader = ({ left, title, right }: InfoHeaderProps) => {

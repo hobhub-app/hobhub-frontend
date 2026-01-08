@@ -10,6 +10,7 @@ import {
   Icon,
   RadioCard,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { IoMaleSharp, IoFemaleSharp } from "react-icons/io5";
 
 type BasicInfoStepProps = {
@@ -29,43 +30,37 @@ const BasicInfoStep = ({
   onGenderChange,
   onLocationChange,
 }: BasicInfoStepProps) => {
+  const { t } = useTranslation();
+
   const genders = [
     {
       icon: <IoFemaleSharp />,
       value: "woman",
-      title: "Woman",
+      title: t("onboarding.gender.woman"),
     },
     {
       icon: <IoMaleSharp />,
       value: "man",
-      title: "Man",
+      title: t("onboarding.gender.man"),
     },
   ];
 
   return (
     <VStack align="stretch" gap={4}>
       <VStack w="full" align="start" gap={1}>
-        <Heading size="lg">
-          {/* TODO: Add translation */}
-          Basic information
-        </Heading>
-        <Text>
-          {/* TODO: Add translation */}
-          We need this to help others find you.
-        </Text>
+        <Heading size="lg">{t("onboarding.sub_heading.general")}</Heading>
+        <Text>{t("onboarding.sub_content.general")}</Text>
       </VStack>
 
       <Field.Root>
         <FormLabel>
-          {/* TODO: Add translation */}
-          Date of birth
+          {t("onboarding.labels.birth_date")}
           <InlineIcon name="calendar_today" color="yellow.100" />
         </FormLabel>
         <Input
           type="date"
           aria-required="true"
-          // TODO: Add translation
-          placeholder="Date of birth"
+          placeholder={t("onboarding.labels.birth_date")}
           value={dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : ""}
           onChange={(e) =>
             onDateOfBirthChange(
@@ -84,7 +79,7 @@ const BasicInfoStep = ({
         }}
       >
         <RadioCard.Label textStyle="md" fontFamily="heading" fontWeight="600">
-          Select Gender
+          {t("onboarding.labels.gender")}
         </RadioCard.Label>
         <HStack align="stretch">
           {genders.map((item) => (
@@ -108,15 +103,13 @@ const BasicInfoStep = ({
 
       <Field.Root>
         <FormLabel>
-          {/* TODO: Add translation */}
-          Location
+          {t("onboarding.labels.location")}
           <InlineIcon name="distance" color="green.200" />
         </FormLabel>
         <Input
           type="text"
           aria-required="true"
-          // TODO: Add translation
-          placeholder="Location"
+          placeholder={t("onboarding.labels.location")}
           value={location}
           onChange={(e) => onLocationChange(e.target.value)}
         />

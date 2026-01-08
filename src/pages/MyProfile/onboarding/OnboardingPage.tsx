@@ -11,9 +11,13 @@ import { useMutation } from "@apollo/client/react";
 import StatusAlert from "@/components/atoms/StatusAlert";
 import { ME_PROFILE } from "@/graphql/queries/users";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const OnboardingPage = () => {
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
   const [currentStep, setCurrentStep] = useState(0);
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
   const [gender, setGender] = useState("");
@@ -82,8 +86,8 @@ const OnboardingPage = () => {
     return (
       <StatusAlert
         status="success"
-        title="Profile saved successfully!"
-        description="Your profile has been completed. Redirecting you to browse users..."
+        title={t("onboarding.alerts.success")}
+        description={t("onboarding.alerts.success_description")}
       />
     );
   }
@@ -92,35 +96,38 @@ const OnboardingPage = () => {
     return (
       <StatusAlert
         status="error"
-        title="Failed to save profile"
-        description="Something went wrong while saving your profile. Please try again."
+        title={t("onboarding.alerts.error")}
+        description={t("onboarding.alerts.error_description")}
       />
     );
   }
 
   return (
     <VStack gap={6} mt={INFO_HEADER_HEIGHT} pt={1.5}>
-      <InfoHeader title={<Heading>Complete your profile</Heading>} />
+      <InfoHeader title={<Heading>{t("onboarding.heading")}</Heading>} />
 
       <VStack w="full" px={2} pt={2}>
         <Steps.Root step={currentStep} count={3} variant="subtle">
           <Steps.List>
             <Steps.Item index={0}>
               <Steps.Indicator bg="purple.200" />
-              {/* TODO: Add translation */}
-              <Steps.Trigger>Info</Steps.Trigger>
+              <Steps.Trigger>
+                {t("onboarding.indicators.general")}
+              </Steps.Trigger>
             </Steps.Item>
 
             <Steps.Item index={1}>
               <Steps.Indicator bg="purple.200" />
-              {/* TODO: Add translation */}
-              <Steps.Trigger disabled={!isStepOneValid}>Hobbies</Steps.Trigger>
+              <Steps.Trigger disabled={!isStepOneValid}>
+                {t("onboarding.indicators.hobbies")}
+              </Steps.Trigger>
             </Steps.Item>
 
             <Steps.Item index={2}>
               <Steps.Indicator bg="purple.200" />
-              {/* TODO: Add translation */}
-              <Steps.Trigger disabled={!isStepTwoValid}>Details</Steps.Trigger>
+              <Steps.Trigger disabled={!isStepTwoValid}>
+                {t("onboarding.indicators.personal")}
+              </Steps.Trigger>
             </Steps.Item>
           </Steps.List>
 
@@ -152,9 +159,8 @@ const OnboardingPage = () => {
           </Steps.Content>
 
           <ButtonGroup>
-            {/* TODO: Add translation */}
             <Button onClick={handlePrev} disabled={!canGoBack}>
-              Back
+              {t("actions.back")}
             </Button>
 
             {isLastStep ? (
@@ -164,13 +170,11 @@ const OnboardingPage = () => {
                 variant="solid"
                 loading={loading}
               >
-                {/* TODO: Add translation */}
-                Save Profile
+                {t("actions.save_profile")}
               </Button>
             ) : (
               <Button onClick={handleNext} disabled={!canGoNext}>
-                {/* TODO: Add translation */}
-                Next
+                {t("actions.next")}
               </Button>
             )}
           </ButtonGroup>

@@ -1,1 +1,174 @@
-{}
+{
+  "actions": {
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "save": "Spara",
+    "save_profile": "Spara profil",
+    "cancel": "Avbryt",
+    "close": "Stäng",
+    "continue": "Fortsätt",
+    "finish": "Slutför",
+    "submit": "Skicka",
+    "edit": "Redigera",
+    "delete": "Radera",
+    "confirm": "Bekräfta",
+    "start_chat": "Skicka meddelande",
+    "search": "Sök",
+    "filter": "Filter",
+    "sort": "Sortera"
+  },
+  "common": {
+    "unknown": "okänd användare"
+  },
+
+  "alert": {
+    "error_general": "Något gick fel"
+  },
+  "calendar": {
+    "yesterday": "igår"
+  },
+  "navigation": {
+    "home": "Hem",
+    "profile": "Min Profil",
+    "messages": "Meddelanden"
+  },
+  "constants": {
+    "skill_levels": {
+      "levels": {
+        "beginner": "beginner",
+        "intermediate": "intermediate",
+        "advanced": "advanced",
+        "expert": "expert"
+      },
+      "labels": {
+        "beginner": "Nybörjare",
+        "intermediate": "Mellan",
+        "advanced": "Avancerad",
+        "expert": "Expert"
+      }
+    }
+  },
+  "onboarding": {
+    "heading": "Slutför din profil",
+    "sub_heading": {
+      "general": "Allmän information",
+      "hobbies": "Välj dina hobbys",
+      "hobbies_added": "Tillagda hobbys",
+      "personal": "Färdigställ din profil",
+      "personal_description": "Om dig"
+    },
+    "sub_content": {
+      "general": "Vi behöver detta för att hjälpa andra att hitta dig.",
+      "personal": "Få din profil att sticka ut. Att lägga till en profilbild och beskrivning hjälper dig att få fler kontakter.",
+      "personal_placeholder": "Berätta för andra om dig själv, dina intressen eller vad du letar efter i en hobbypartner.",
+      "max_lenght": "/500 tecken"
+    },
+    "labels": {
+      "birth_date": "Födelsedatum",
+      "gender": "Välj kön",
+      "location": "Plats",
+      "hobbies": "Välj dina hobbys"
+    },
+    "dialog": {
+      "heading": "Välj en hobby",
+      "close": "Stäng dialogruta",
+      "placeholder": "Sök hobbys",
+      "skill_level_text": "Färdighet i "
+    },
+    "profile_image": {
+      "fallback": "Profilbild",
+      "change": "Byt foto",
+      "add_photo": "Lägg till foto"
+    },
+    "gender": {
+      "woman": "Kvinna",
+      "man": "Man"
+    },
+    "steps": {
+      "basic_info": "Grundläggande information",
+      "hobbies": "Välj dina hobbys",
+      "profile_setup": "Profilinställningar"
+    },
+    "indicators": {
+      "general": "Allmänt",
+      "hobbies": "Hobbys",
+      "personal": "Personligt"
+    },
+    "alerts": {
+      "success": "Profil sparad!",
+      "success_description": "Omdirigerar dig för att se användare",
+      "error": "Misslyckades med att spara profil",
+      "error_description": "Något gick fel när din profil sparades. Försök igen.",
+      "error_hobbies": "Kunde inte hämta hobbys"
+    },
+    "actions": {
+      "add_hobby": "Lägg till hobby"
+    },
+    "skill_guide": {
+      "title": "Färgguide för kunskapsnivå"
+    }
+  },
+  "profile": {
+    "sub_heading": {
+      "hobbies": "Hobbys",
+      "about": "Om"
+    },
+    "age": "år",
+    "member": "Medlem sedan ",
+    "alerts": {
+      "success": "Profil sparad!",
+      "error": "Användare ej funnen",
+      "error_description": "Denna profil kunde inte laddas."
+    }
+  },
+  "my_profile": {
+    "heading": "Min profil",
+    "sub_heading": {
+      "hobbies": "Hobbys",
+      "about": "Om mig"
+    },
+    "alerts": {
+      "success": "Profil sparad",
+      "error": "Profil ej funnen",
+      "error_description": "Din profil kunde inte laddas."
+    },
+    "settings": {
+      "title": "Inställningar",
+      "language_label": "{{language}}"
+    },
+    "languages": {
+      "en": "Engelska",
+      "sv": "Svenska"
+    }
+  },
+  "browse": {
+    "alerts": {
+      "success": "Profil sparad framgångsrikt!",
+      "error": "Något gick fel",
+      "error_description": "Vi kunde inte ladda användare just nu. Försök igen.",
+      "info": "Inga användare hittades",
+      "info_description": "Försök med andra sökkriterier."
+    },
+    "filter": {
+      "heading": {
+        "sort": "Sortera användare efter",
+        "filter": "Filtrera användare efter"
+      },
+      "similar": "Mest liknande",
+      "near": "Närmast",
+      "gender": "Kön",
+      "woman": "Kvinna",
+      "man": "Man",
+      "hobby": "Hobby",
+      "search": "Sök efter hobby",
+      "clear": "Rensa filter"
+    }
+  },
+  "chat": {
+    "alert": {
+      "error": "Kunde inte ladda chatt",
+      "receiver_error": "Kunde inte ladda chatt. Öppna den från Meddelanden."
+    },
+    "message_placeholder": "Skriv meddelande"
+  }
+}
