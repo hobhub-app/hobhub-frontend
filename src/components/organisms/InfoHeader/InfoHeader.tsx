@@ -30,7 +30,13 @@ const InfoHeader = ({ left, title, right }: InfoHeaderProps) => {
       <Box flex="1" textAlign={left ? "center" : "left"} pl={!left ? 4 : 0}>
         {title}
       </Box>
-      <Box w="40px" display="flex" justifyContent="flex-end">
+      <Box
+        w="40px"
+        display="flex"
+        justifyContent="flex-end"
+        pr={4}
+        alignItems="stretch"
+      >
         {right}
       </Box>
     </HStack>
