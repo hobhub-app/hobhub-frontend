@@ -17,7 +17,13 @@
     "filter": "Filter",
     "sort": "Sort"
   },
+  "common": {
+    "unknown": "unknown user"
+  },
 
+  "alert": {
+    "error_general": "Something went wrong"
+  },
   "calendar": {
     "yesterday": "Yesterday"
   },
@@ -157,5 +163,12 @@
       "search": "Search hobby",
       "clear": "Clear filters"
     }
+  },
+  "chat": {
+    "alert": {
+      "error": "Failed to load chat",
+      "receiver_error": "Unable to load chat. Please open it from Messages."
+    },
+    "message_placeholder": "Write your message"
   }
 }

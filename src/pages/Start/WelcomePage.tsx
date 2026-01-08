@@ -6,7 +6,6 @@ import {
   Box,
   VStack,
   Image,
-  // Text,
   Button as ChakraButton,
   Heading,
 } from "@chakra-ui/react";
@@ -14,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import hobhubLogo from "@/assets/images/hobhub-logo.svg";
+import InlineIcon from "@/components/atoms/InlineIcon";
+import StatusAlert from "@/components/atoms/StatusAlert";
 
 const WelcomePage = () => {
   const { t } = useTranslation("auth");
@@ -30,27 +31,40 @@ const WelcomePage = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <VStack w="100%" maxW="sm" mx="auto" mt={12}>
+      <VStack w="full">
         <Image
           src={hobhubLogo}
           alt="HobHub logo"
           boxSize="180px"
           objectFit="contain"
         />
-        {/* TODO: Add correct intro text */}
-        <Heading textAlign="center" size="2xl">
-          The place to connect with new people to perform your hobbies with.
+        <Heading textAlign="center" size="xl" whiteSpace="pre-line">
+          {t("welcome.headline.section_one")}
+          <InlineIcon
+            name="potted_plant"
+            color="green.200"
+            fontSize="2xl"
+            pb={2}
+          />
+          {t("welcome.headline.section_two")}
+          <InlineIcon
+            name="wifi_tethering"
+            color="yellow.100"
+            fontSize="2xl"
+            pb={1}
+          />
+          {t("welcome.headline.section_three")}
         </Heading>
 
-        <VStack w="100%">
+        <VStack w="full">
           <ChakraButton colorPalette="green" onClick={() => navigate("/login")}>
-            {t("login")}
+            {t("actions.login")}
           </ChakraButton>
           <ChakraButton
             colorPalette="purple"
             onClick={() => navigate("/register")}
           >
-            {t("register")}
+            {t("actions.register")}
           </ChakraButton>
           {!Capacitor.isNativePlatform() && (
             <GoogleLogin
@@ -70,10 +84,11 @@ const WelcomePage = () => {
               size="medium"
               locale=""
               auto_select={true}
-              onError={() => console.log("login failed")}
+              onError={() => {
+                <StatusAlert status={"info"} title={t("alert.login_error")} />;
+              }}
             />
           )}
-          <ChakraButton>{t("facebook_sign_in")}</ChakraButton>
         </VStack>
       </VStack>
     </Box>

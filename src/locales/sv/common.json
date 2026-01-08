@@ -17,6 +17,13 @@
     "filter": "Filter",
     "sort": "Sortera"
   },
+  "common": {
+    "unknown": "okänd användare"
+  },
+
+  "alert": {
+    "error_general": "Något gick fel"
+  },
   "calendar": {
     "yesterday": "igår"
   },
@@ -156,5 +163,12 @@
       "search": "Sök efter hobby",
       "clear": "Rensa filter"
     }
+  },
+  "chat": {
+    "alert": {
+      "error": "Kunde inte ladda chatt",
+      "receiver_error": "Kunde inte ladda chatt. Öppna den från Meddelanden."
+    },
+    "message_placeholder": "Skriv meddelande"
   }
 }

@@ -19,16 +19,23 @@ import {
   Button,
   HStack,
 } from "@chakra-ui/react";
+import { RiSendPlaneFill } from "react-icons/ri";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import formatMessageDate from "./utils/formatMessageDate";
 import { useEffect, useState } from "react";
 import { SEND_MESSAGE } from "@/graphql/mutations/conversations";
 import useChatSocket from "@/hooks/useChatSocket";
+import PageSpinner from "@/components/atoms/PageSpinner";
+import StatusAlert from "@/components/atoms/StatusAlert";
+import { useTranslation } from "react-i18next";
 
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
+
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const receiverIdFromState = (location.state as { receiverId?: number } | null)
     ?.receiverId;
   const receiverIdFromQuery = new URLSearchParams(location.search).get(
@@ -97,18 +104,17 @@ const ChatPage = () => {
     useMutation<SendMessageResult>(SEND_MESSAGE);
 
   if (loading || !meId) {
-    //TODO: Replace with Spinner
-    return <Box>Loading messages…</Box>;
+    return <PageSpinner />;
   }
 
   if (error) {
-    // TODO: Replace with error alert/notification
-    console.error("GraphQL error:", error);
-    return <Box>Failed to load messages</Box>;
+    return <StatusAlert status="error" title={t("chat.alert.error")} />;
   }
 
   if (!receiverId) {
-    return <Box>Unable to load chat. Please open it from Messages.</Box>;
+    return (
+      <StatusAlert status="error" title={t("chat.alert.receiver_error")} />
+    );
   }
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -197,7 +203,7 @@ const ChatPage = () => {
       <Box
         as="form"
         onSubmit={handleSendMessage}
-        w="100%"
+        w="full"
         pt={8}
         justifySelf="flex-end"
       >
@@ -207,11 +213,11 @@ const ChatPage = () => {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="message here"
+              placeholder={t("chat.message_placeholder")}
             />
           </Field.Root>
           <Button type="submit" loading={sending} disabled={!newMessage.trim()}>
-            send icon
+            <RiSendPlaneFill />
           </Button>
         </HStack>
       </Box>

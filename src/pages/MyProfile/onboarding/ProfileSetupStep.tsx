@@ -66,7 +66,6 @@ const ProfileSetupStep = ({
       <VStack align="start">
         <Heading fontSize="lg">{t("onboarding.sub_heading.personal")}</Heading>
 
-        {/* TODO: Add translation */}
         <Text color="neutral.100" fontSize="sm">
           {t("onboarding.sub_content.personal")}
         </Text>

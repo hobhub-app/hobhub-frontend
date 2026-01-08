@@ -4,14 +4,18 @@ import type { MyChatsData } from "@/graphql/types/conversation";
 import type { MeIdData } from "@/graphql/types/user";
 import { useQuery } from "@apollo/client/react";
 import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import getOtherUser from "./utils/getOtherUser.js";
 import truncateText from "./utils/truncateText.js";
 import formatMessageDate from "./utils/formatMessageDate.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import useChatSocket from "@/hooks/useChatSocket.js";
 import { useEffect, useState } from "react";
+import PageSpinner from "@/components/atoms/PageSpinner.js";
+import StatusAlert from "@/components/atoms/StatusAlert.js";
 
 const MessagesPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -61,14 +65,17 @@ const MessagesPage = () => {
   }, [lastMessage]);
 
   if (chatLoading || meLoading) {
-    // TODO: Replace with spinner
-    return <Text>Loading...</Text>;
+    return <PageSpinner />;
   }
 
   if (chatError || meError || !meData) {
-    // TODO: Replace with error alert/notification
-    console.error("GraphQL error:", chatError, meError);
-    return <Text>Something went wrong</Text>;
+    return (
+      <StatusAlert
+        status="error"
+        title={t("browse.alerts.error")}
+        description={t("browse.alerts.error_description")}
+      />
+    );
   }
 
   return (
@@ -80,7 +87,9 @@ const MessagesPage = () => {
         const { firstname, lastname, profileImageUrl } = otherUser;
 
         const userName =
-          firstname && lastname ? `${firstname} ${lastname}` : "Unknown user";
+          firstname && lastname
+            ? `${firstname} ${lastname}`
+            : t("common.unknown");
 
         const previewText = truncateText(lastMessageContent, 50);
         const lastMessageDate = formatMessageDate(lastMessageAt);
