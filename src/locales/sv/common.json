@@ -170,5 +170,10 @@
       "receiver_error": "Kunde inte ladda chatt. Öppna den från Meddelanden."
     },
     "message_placeholder": "Skriv meddelande"
+  },
+  "not_found": {
+    "heading": "Sidan hittades inte",
+    "description": "Sidan du letar efter existerar inte eller har flyttats.",
+    "go_home": "Gå tillbaka hem"
   }
 }

@@ -170,5 +170,10 @@
       "receiver_error": "Unable to load chat. Please open it from Messages."
     },
     "message_placeholder": "Write your message"
+  },
+  "not_found": {
+    "heading": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "go_home": "Go back home"
   }
 }
