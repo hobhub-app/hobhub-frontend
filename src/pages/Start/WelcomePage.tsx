@@ -31,7 +31,7 @@ const WelcomePage = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <VStack w="full">
+      <VStack w="full" gap={16}>
         <Image
           src={hobhubLogo}
           alt="HobHub logo"
@@ -56,7 +56,7 @@ const WelcomePage = () => {
           {t("welcome.headline.section_three")}
         </Heading>
 
-        <VStack w="full">
+        <VStack w="full" p={2} alignItems="stretch" gap={4}>
           <ChakraButton colorPalette="green" onClick={() => navigate("/login")}>
             {t("actions.login")}
           </ChakraButton>
@@ -67,27 +67,40 @@ const WelcomePage = () => {
             {t("actions.register")}
           </ChakraButton>
           {!Capacitor.isNativePlatform() && (
-            <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                const token = credentialResponse.credential;
+            <Box
+              display="flex"
+              alignItems="stretch"
+              justifyContent="stretch"
+              height={14}
+              mt={12}
+            >
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  const token = credentialResponse.credential;
 
-                if (token) {
-                  const { data } = await googleSignIn({ variables: { token } });
+                  if (token) {
+                    const { data } = await googleSignIn({
+                      variables: { token },
+                    });
 
-                  if (data && data.loginWithGoogle) {
-                    localStorage.setItem("token", data.loginWithGoogle.token);
-                    navigate("/");
+                    if (data && data.loginWithGoogle) {
+                      localStorage.setItem("token", data.loginWithGoogle.token);
+                      navigate("/");
+                    }
                   }
-                }
-              }}
-              width="800"
-              size="medium"
-              locale=""
-              auto_select={true}
-              onError={() => {
-                <StatusAlert status={"info"} title={t("alert.login_error")} />;
-              }}
-            />
+                }}
+                width="800"
+                size="large"
+                locale=""
+                auto_select={true}
+                onError={() => {
+                  <StatusAlert
+                    status={"info"}
+                    title={t("alert.login_error")}
+                  />;
+                }}
+              />
+            </Box>
           )}
         </VStack>
       </VStack>

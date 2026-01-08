@@ -15,7 +15,7 @@ i18n
       en: { common: enCommon, auth: enAuth },
       sv: { common: svCommon, auth: svAuth },
     },
-    fallbackLng: "sv",
+    fallbackLng: "en",
     supportedLngs: ["en", "sv"],
     defaultNS: "common",
     ns: ["common", "auth"],

@@ -9,6 +9,14 @@ const config: CapacitorConfig = {
       backgroundColor: "#2B242B",
     },
   },
+  ios: {
+    contentInset: "automatic",
+    webContentsDebuggingEnabled: true,
+  },
+  android: {
+    webContentsDebuggingEnabled: true,
+    allowMixedContent: true,
+  },
 };
 
 export default config;

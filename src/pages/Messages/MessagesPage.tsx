@@ -3,7 +3,7 @@ import { ME } from "@/graphql/queries/users";
 import type { MyChatsData } from "@/graphql/types/conversation";
 import type { MeIdData } from "@/graphql/types/user";
 import { useQuery } from "@apollo/client/react";
-import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import getOtherUser from "./utils/getOtherUser.js";
 import truncateText from "./utils/truncateText.js";
@@ -13,6 +13,8 @@ import useChatSocket from "@/hooks/useChatSocket.js";
 import { useEffect, useState } from "react";
 import PageSpinner from "@/components/atoms/PageSpinner.js";
 import StatusAlert from "@/components/atoms/StatusAlert.js";
+import { INFO_HEADER_HEIGHT } from "@/constants/layout.js";
+import InfoHeader from "@/components/organisms/InfoHeader/InfoHeader.js";
 
 const MessagesPage = () => {
   const { t } = useTranslation();
@@ -79,7 +81,8 @@ const MessagesPage = () => {
   }
 
   return (
-    <VStack w="full">
+    <VStack w="full" mt={INFO_HEADER_HEIGHT} pt={1.5}>
+      <InfoHeader title={<Heading>{t("navigation.messages")}</Heading>} />
       {chats.length === 0 && (
         <VStack textAlign="center" py={8} gap={2}>
           <Text fontSize="lg" fontWeight="600" color="beige.50">
@@ -104,9 +107,10 @@ const MessagesPage = () => {
 
         return (
           <Box
+            w="full"
             key={id}
             py={4}
-            borderBottom="1px solid"
+            // borderBottom="1px solid"
             cursor="pointer"
             _hover={{ color: "grey" }}
             onClick={() =>
@@ -126,10 +130,14 @@ const MessagesPage = () => {
                 />
               </Avatar.Root>
               <VStack align="start" flex="1">
-                <Text fontWeight="medium">{userName}</Text>
+                <Heading fontWeight="800" textStyle="md">
+                  {userName}
+                </Heading>
                 <Text fontSize="sm">{previewText}</Text>
               </VStack>
-              <Text fontSize="sm">{lastMessageDate}</Text>
+              <Text fontSize="sm" color="green.100">
+                {lastMessageDate}
+              </Text>
             </HStack>
           </Box>
         );

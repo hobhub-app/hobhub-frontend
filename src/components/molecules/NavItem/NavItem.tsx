@@ -16,8 +16,8 @@ const NavItem = ({ href, icon, activeIcon, children }: NavItemProps) => {
       >
         <VStack
           cursor="pointer"
-          _hover={{ color: "blue.400" }}
-          _currentPage={{ color: "blue.500" }}
+          _hover={{ color: "purle.200" }}
+          _currentPage={{ color: "purple.200" }}
           transition="color 0.2s"
           minW="60px"
         >

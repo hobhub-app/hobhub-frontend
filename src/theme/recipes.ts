@@ -13,7 +13,7 @@ export const buttonRecipe = defineRecipe({
         minH: "48px",
         borderRadius: "4px",
         px: "6",
-        border: "transparent",
+        border: "solid 2px transparent",
         bg: "colorPalette.300",
         color: "neutral.100",
         fontFamily: "heading",
