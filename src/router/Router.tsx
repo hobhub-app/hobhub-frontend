@@ -6,7 +6,6 @@ import ChatPage from "@/pages/Messages/ChatPage";
 import MessagesPage from "@/pages/Messages/MessagesPage";
 import MyProfilePage from "@/pages/MyProfile/MyProfilePage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
-import SavedPage from "@/pages/Saved/SavedPage";
 import RegisterPage from "@/pages/Register/RegisterPage";
 import WelcomePage from "@/pages/Start/WelcomePage";
 import { createBrowserRouter } from "react-router-dom";
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
               {
                 path: "/profile/:userId",
                 element: <UserProfilePage />,
-              },
-              {
-                path: "/saved",
-                element: <SavedPage />,
               },
               {
                 path: "/messages",
