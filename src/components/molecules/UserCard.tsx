@@ -9,9 +9,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import InlineIcon from "@/components/atoms/InlineIcon";
-import { hobbyIcons } from "@/constants/hobbyIcons";
 import Fyrudd from "@/assets/icons/fyrudd.svg";
 import type { UserPreview } from "@/graphql/types/user";
+import HobbyTag from "./HobbyTag";
 
 type UserCardProps = {
   user: UserPreview;
@@ -73,25 +73,12 @@ const UserCard = ({ user, onClick }: UserCardProps) => {
               </Text>
             ) : (
               <HStack>
-                {hobbies.slice(0, 2).map(({ id, hobby }) => (
-                  <Badge
+                {hobbies.slice(0, 2).map(({ id, hobby, skillLevel }) => (
+                  <HobbyTag
                     key={id}
-                    variant="solid"
-                    bg="purple.100"
-                    color="purple.400"
-                    size="sm"
-                    px={2}
-                  >
-                    <Text
-                      color="purple.400"
-                      fontSize="xs"
-                      fontFamily="heading"
-                      fontWeight="600"
-                    >
-                      {hobby.name}
-                    </Text>
-                    <InlineIcon name={hobbyIcons[hobby.name] ?? "category"} />
-                  </Badge>
+                    name={hobby.name}
+                    skillLevel={skillLevel}
+                  />
                 ))}
 
                 {hobbies.length > 2 && (
