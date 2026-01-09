@@ -44,6 +44,7 @@ export const BROWSE_USERS = gql`
       profileDescription
       hobbies {
         id
+        skillLevel
         hobby {
           id
           name
